@@ -1,0 +1,859 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>键鼠映射</title>
+<style>
+  :root {
+    --app-bg: #F4F7FB;
+    --panel-bg: #F8FAFD;
+    --card-bg: #FFFFFF;
+    --primary: #1677FF;
+    --primary-hover: #0F6DE8;
+    --text-main: #17233C;
+    --text-normal: #344054;
+    --text-secondary: #8993A4;
+    --border: #E8ECF2;
+    --danger: #E5484D;
+    --radius-small: 7px;
+    --radius-normal: 10px;
+    --radius-large: 12px;
+  }
+
+  * { box-sizing: border-box; }
+
+  html, body {
+    margin: 0;
+    min-width: 960px;
+    min-height: 550px;
+    font-family: "Microsoft YaHei", "PingFang SC", "Segoe UI", Arial, sans-serif;
+    background: #EAF0F7;
+    color: var(--text-normal);
+  }
+
+  body {
+    display: flex;
+    align-items: flex-start;
+    justify-content: flex-start;
+  }
+
+  button, input { font: inherit; }
+  button { user-select: none; }
+
+  .app {
+    position: relative;
+    width: 960px;
+    height: 550px;
+    overflow: hidden;
+    background: var(--app-bg);
+    border: 1px solid #DDE4ED;
+    box-shadow: 0 10px 30px rgba(35, 55, 85, 0.10);
+  }
+
+  .titlebar {
+    height: 42px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-left: 12px;
+    background: #FAFBFD;
+    border-bottom: 1px solid #EDF0F5;
+  }
+
+  .titlebar-left {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    min-width: 0;
+  }
+
+  .title-icon {
+    width: 24px;
+    height: 24px;
+    flex: 0 0 24px;
+    border-radius: 7px;
+    display: grid;
+    place-items: center;
+    color: #fff;
+    background: linear-gradient(135deg, #4A8DFF, #1769E8);
+    box-shadow: 0 3px 8px rgba(22,119,255,.18);
+  }
+
+  .title-icon svg { width: 15px; height: 15px; display: block; }
+
+  .title-text {
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--text-main);
+    letter-spacing: .1px;
+  }
+
+  .window-actions {
+    height: 100%;
+    display: flex;
+    align-items: stretch;
+  }
+
+  .win-btn {
+    width: 42px;
+    height: 41px;
+    border: 0;
+    background: transparent;
+    color: #637083;
+    display: grid;
+    place-items: center;
+    cursor: default;
+    padding: 0;
+  }
+
+  .win-btn:hover { background: #F0F3F7; }
+  .win-btn.close:hover { background: #E81123; color: #fff; }
+  .win-btn svg { width: 11px; height: 11px; stroke: currentColor; fill: none; stroke-width: 1.5; }
+  .win-btn.text-action {
+    width: auto;
+    min-width: 54px;
+    padding: 0 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #59677B;
+    font-size: 11px;
+    white-space: nowrap;
+    cursor: pointer;
+  }
+
+  .content {
+    height: 508px;
+    min-height: 0;
+    display: grid;
+    grid-template-columns: 226px minmax(0, 1fr);
+    overflow: hidden;
+  }
+
+  .sidebar {
+    position: relative;
+    padding: 20px 17px 16px;
+    background: #FBFCFE;
+    border-right: 1px solid #EDF0F5;
+  }
+
+  .brand {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+
+  .brand-logo {
+    width: 52px;
+    height: 52px;
+    border-radius: 13px;
+    display: grid;
+    place-items: center;
+    color: white;
+    background: linear-gradient(135deg, #5D9EFF, #1769E8);
+    box-shadow: 0 6px 16px rgba(22,119,255,.18);
+  }
+
+  .brand-logo svg { width: 30px; height: 30px; display: block; }
+
+  .brand-title {
+    margin-top: 12px;
+    color: var(--text-main);
+    font-size: 17px;
+    line-height: 1.25;
+    font-weight: 600;
+  }
+
+  .brand-subtitle {
+    margin-top: 4px;
+    font-size: 11.5px;
+    color: var(--text-secondary);
+  }
+
+  .add-area {
+    margin-top: 28px;
+  }
+
+  .add-btn {
+    display: block;
+    margin: 0 auto;
+    width: 140px;
+    height: 42px;
+    border: 0;
+    border-radius: 10px;
+    background: linear-gradient(135deg, #3B82F6, #1769E8);
+    color: #fff;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    box-shadow: 0 5px 12px rgba(23, 105, 232, .18);
+  }
+
+  .add-btn:hover { background: linear-gradient(135deg, #347CF0, #1262DA); }
+  .add-btn:active { transform: translateY(1px); }
+
+  .add-warning {
+    display: none;
+    width: 192px;
+    margin: 17px auto 0;
+    color: #C7464B;
+    font-size: 12px;
+    line-height: 1.45;
+    text-align: center;
+  }
+
+  .add-warning.show { display: block; }
+
+  .lock-note {
+    position: absolute;
+    left: 17px;
+    right: 17px;
+    bottom: 17px;
+    display: flex;
+    align-items: flex-start;
+    gap: 6px;
+    font-size: 11px;
+    line-height: 1.45;
+    color: var(--text-secondary);
+  }
+
+  .lock-note svg { width: 12px; height: 12px; stroke: currentColor; fill: none; stroke-width: 1.8; }
+
+  .main {
+    height: 508px;
+    min-width: 0;
+    min-height: 0;
+    padding: 10px;
+    background: var(--app-bg);
+    overflow: hidden;
+  }
+
+  .panel {
+    height: 100%;
+    min-height: 0;
+    display: grid;
+    grid-template-rows: 28px minmax(0, 1fr);
+    padding: 11px 12px 12px;
+    border-radius: 12px;
+    background: var(--panel-bg);
+    border: 1px solid #EEF2F6;
+    overflow: hidden;
+  }
+
+  .panel-head {
+    height: 28px;
+    min-height: 0;
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    padding: 0 2px;
+  }
+
+  .panel-title {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    color: var(--text-main);
+    font-size: 13px;
+    font-weight: 600;
+  }
+
+  .panel-title-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--primary);
+    box-shadow: 0 0 0 3px rgba(22,119,255,.08);
+  }
+
+  .count {
+    font-size: 11px;
+    color: var(--text-secondary);
+  }
+
+  .mapping-list {
+    width: 100%;
+    height: 100%;
+    min-width: 0;
+    min-height: 0;
+    overflow-y: auto;
+    overflow-x: hidden;
+    overscroll-behavior: contain;
+    touch-action: pan-y;
+    padding: 8px 3px 0 0;
+    scrollbar-gutter: stable;
+    scrollbar-width: thin;
+    scrollbar-color: #C8D0DB transparent;
+  }
+
+  .mapping-list::-webkit-scrollbar { width: 6px; }
+  .mapping-list::-webkit-scrollbar-track { background: transparent; }
+  .mapping-list::-webkit-scrollbar-thumb {
+    background: #C8D0DB;
+    border-radius: 10px;
+  }
+  .mapping-list::-webkit-scrollbar-thumb:hover { background: #AEB8C6; }
+
+  .mapping-item {
+    width: 100%;
+    min-height: 62px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    padding: 10px 10px 10px 11px;
+    background: var(--card-bg);
+    border: 1px solid #EDF0F5;
+    border-radius: 10px;
+    box-shadow: 0 2px 8px rgba(30, 50, 80, 0.04);
+  }
+
+  .mapping-item + .mapping-item { margin-top: 8px; }
+
+  .mapping-item.unsaved,
+  .mapping-item.editing {
+    position: relative;
+    min-height: 62px;
+    border-color: #8DBDFF;
+    box-shadow: 0 2px 8px rgba(22,119,255,.05);
+  }
+
+  .status-tag {
+    position: absolute;
+    left: 10px;
+    top: -7px;
+    height: 17px;
+    display: inline-flex;
+    align-items: center;
+    padding: 0 6px;
+    border-radius: 5px;
+    background: #EAF3FF;
+    color: #1769E8;
+    border: 1px solid #CFE1FF;
+    font-size: 10px;
+    font-weight: 600;
+    line-height: 1;
+  }
+
+  .map-flow {
+    min-width: 0;
+    flex: 1;
+    display: flex;
+    align-items: center;
+    gap: 9px;
+  }
+
+  .keycap {
+    width: 222px;
+    min-width: 222px;
+    height: 38px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0 10px;
+    border-radius: 8px;
+    font-size: 15.5px;
+    font-weight: 600;
+    line-height: 1;
+    white-space: nowrap;
+    color: #2D4F84;
+    background: #EEF5FF;
+    border: 1px solid #DCEAFF;
+  }
+
+  .keycap.target {
+    color: #35684C;
+    background: #EFF9F3;
+    border-color: #DDEFE4;
+  }
+
+  .arrow {
+    width: 18px;
+    flex: 0 0 18px;
+    text-align: center;
+    color: #98A2B3;
+    font-size: 17px;
+  }
+
+  .record-box {
+    width: 222px;
+    min-width: 222px;
+    flex: 0 0 222px;
+    height: 38px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px dashed #B8C3D2;
+    border-radius: 8px;
+    background: #FBFCFE;
+    color: #778398;
+    font-size: 12px;
+    font-weight: 500;
+    cursor: pointer;
+    padding: 0 8px;
+    text-align: center;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .record-box:hover { border-color: #7EADFA; background: #F7FAFF; }
+  .record-box.recording {
+    border-style: solid;
+    border-color: var(--primary);
+    color: var(--primary);
+    background: #F2F7FF;
+    box-shadow: 0 0 0 2px rgba(22,119,255,.08);
+  }
+
+  .record-box.saved-value {
+    cursor: default;
+  }
+
+  .record-box.saved-value:hover {
+    border-color: #B8C3D2;
+    background: #FBFCFE;
+  }
+
+  .record-wrap {
+    position: relative;
+    width: 222px;
+    height: 38px;
+    flex: 0 0 222px;
+  }
+
+  .record-wrap .record-box {
+    width: 100%;
+    padding: 0 8px;
+    text-align: center;
+  }
+
+  .clear-target {
+    position: absolute;
+    z-index: 2;
+    right: -5px;
+    top: -5px;
+    width: 17px;
+    height: 17px;
+    padding: 0;
+    border: 1px solid #D8DEE8;
+    border-radius: 50%;
+    background: #FFFFFF;
+    color: #98A2B3;
+    display: grid;
+    place-items: center;
+    cursor: pointer;
+    font-size: 13px;
+    line-height: 1;
+    box-shadow: 0 1px 4px rgba(30, 50, 80, .10);
+  }
+
+  .clear-target:hover {
+    color: #667085;
+    border-color: #C7D0DC;
+    background: #F7F9FC;
+  }
+
+  .item-actions {
+    width: 122px;
+    flex: 0 0 122px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  .mini-btn {
+    width: 58px;
+    height: 31px;
+    border: 1px solid #E3E8EF;
+    border-radius: 7px;
+    background: #fff;
+    color: #536174;
+    font-size: 11.5px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 4px;
+    cursor: pointer;
+    padding: 0 5px;
+    white-space: nowrap;
+  }
+
+  .mini-btn:hover { background: #F8FAFC; border-color: #D7DEE8; }
+  .mini-btn.primary { color: #1769E8; border-color: #CFE1FF; background: #F8FBFF; }
+  .mini-btn.primary:hover { background: #EEF5FF; }
+  .mini-btn.danger { color: var(--danger); }
+  .mini-btn.danger:hover { background: #FFF7F7; border-color: #F4CCCC; }
+  .mini-btn:disabled { opacity: .45; cursor: not-allowed; background: #F7F8FA; }
+
+  .mini-btn svg { width: 12px; height: 12px; stroke: currentColor; fill: none; stroke-width: 1.7; }
+
+  .empty-state {
+    height: 100%;
+    display: grid;
+    place-items: center;
+    color: var(--text-secondary);
+    font-size: 12px;
+  }
+
+  .confirm-backdrop {
+    position: absolute;
+    inset: 0;
+    z-index: 1000;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    background: rgba(23, 35, 60, .18);
+  }
+
+  .confirm-backdrop.show { display: flex; }
+
+  .confirm-dialog {
+    width: 292px;
+    padding: 17px;
+    border: 1px solid #E3E8EF;
+    border-radius: 12px;
+    background: #FFFFFF;
+    box-shadow: 0 14px 34px rgba(25, 42, 70, .18);
+  }
+
+  .confirm-title {
+    color: var(--text-main);
+    font-size: 14px;
+    font-weight: 600;
+  }
+
+  .confirm-text {
+    margin-top: 7px;
+    color: #667085;
+    font-size: 11.5px;
+    line-height: 1.6;
+  }
+
+  .confirm-actions {
+    margin-top: 15px;
+    display: flex;
+    justify-content: flex-end;
+    gap: 7px;
+  }
+
+  .confirm-btn {
+    min-width: 58px;
+    height: 31px;
+    padding: 0 12px;
+    border: 1px solid #E1E6ED;
+    border-radius: 7px;
+    background: #FFFFFF;
+    color: #4C596B;
+    font-size: 11.5px;
+    cursor: pointer;
+  }
+
+  .confirm-btn:hover { background: #F7F9FC; }
+  .confirm-btn.danger {
+    border-color: #E5484D;
+    background: #E5484D;
+    color: #FFFFFF;
+  }
+  .confirm-btn.danger:hover { background: #D93E43; }
+
+  .settings-backdrop,
+  .about-backdrop {
+    position: absolute;
+    inset: 0;
+    z-index: 1200;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    background: rgba(25, 36, 55, .28);
+    -webkit-app-region: no-drag;
+  }
+  .settings-backdrop.show,
+  .about-backdrop.show { display: flex; }
+  .settings-dialog {
+    width: 410px;
+    padding: 22px;
+    border: 1px solid #E1E7F0;
+    border-radius: 17px;
+    background: #FFFFFF;
+    color: #1F2D43;
+  }
+  .settings-head,
+  .about-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 17px;
+  }
+  .settings-title,
+  .about-title { font-size: 18px; font-weight: 700; }
+  .settings-close,
+  .about-close {
+    width: 30px;
+    height: 30px;
+    border: 0;
+    border-radius: 8px;
+    background: transparent;
+    color: #6E7B8D;
+    font-size: 21px;
+    line-height: 28px;
+    cursor: pointer;
+  }
+  .settings-close:hover,
+  .about-close:hover { background: #F0F3F7; color: #27364C; }
+  .settings-list { display: grid; gap: 11px; }
+  .settings-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    min-height: 66px;
+    padding: 0 15px;
+    border: 1px solid #E5EAF2;
+    border-radius: 12px;
+    background: #FAFBFD;
+  }
+  .settings-name { margin-bottom: 4px; font-size: 14px; font-weight: 650; color: #24334A; }
+  .settings-desc { font-size: 11.5px; color: #8792A3; }
+  .settings-switch {
+    position: relative;
+    flex: 0 0 auto;
+    width: 44px;
+    height: 24px;
+    margin-left: 18px;
+    padding: 0;
+    border: 0;
+    border-radius: 999px;
+    background: #C8D0DC;
+    cursor: pointer;
+    transition: background .18s ease;
+  }
+  .settings-switch::after {
+    content: '';
+    position: absolute;
+    left: 3px;
+    top: 3px;
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    background: #FFFFFF;
+    transition: transform .18s ease;
+  }
+  .settings-switch.on { background: #2D73F5; }
+  .settings-switch.on::after { transform: translateX(20px); }
+  .settings-switch:disabled { cursor: wait; opacity: .65; }
+  .about-dialog {
+    display: flex;
+    flex-direction: column;
+    width: 470px;
+    height: 440px;
+    box-sizing: border-box;
+    padding: 22px;
+    border: 1px solid #E1E7F0;
+    border-radius: 17px;
+    background: #FFFFFF;
+    color: #1F2D43;
+  }
+  .about-head { flex: 0 0 auto; margin-bottom: 14px; }
+  .about-body { min-height: 0; overflow-y: auto; padding-right: 7px; }
+  .about-body::-webkit-scrollbar { width: 6px; }
+  .about-body::-webkit-scrollbar-track { background: transparent; }
+  .about-body::-webkit-scrollbar-thumb { border-radius: 999px; background: #CAD3E1; }
+  .about-info {
+    display: grid;
+    gap: 7px;
+    margin-bottom: 14px;
+    padding: 13px 15px;
+    border: 1px solid #E5EAF2;
+    border-radius: 12px;
+    background: #FAFBFD;
+    font-size: 13px;
+    color: #43516A;
+  }
+  .about-info strong { color: #24334A; font-weight: 650; }
+  .about-section-title { margin: 0 0 9px; font-size: 14px; font-weight: 700; color: #24334A; }
+  .version-card {
+    margin-bottom: 10px;
+    padding: 12px 14px;
+    border: 1px solid #DFE6F0;
+    border-radius: 12px;
+    background: #FFFFFF;
+  }
+  .version-card:last-child { margin-bottom: 0; }
+  .version-title { margin-bottom: 7px; color: #2D73F5; font-size: 13px; font-weight: 700; }
+  .version-card ul { margin: 0; padding-left: 18px; color: #5F6D82; font-size: 12px; line-height: 1.65; }
+  .version-card li + li { margin-top: 3px; }
+
+  @media (max-width: 649px), (max-height: 549px) {
+    body { overflow: auto; }
+  }
+</style>
+</head>
+<body>
+  <div class="app" role="application" aria-label="键鼠映射">
+    <header class="titlebar">
+      <div class="titlebar-left">
+        <div class="title-icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none">
+            <rect x="3" y="6" width="18" height="12" rx="2.2" stroke="currentColor" stroke-width="1.8"/>
+            <path d="M6 9h1M10 9h1M14 9h1M18 9h.1M6 12h1M10 12h1M14 12h1M18 12h.1M7 15h10" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+          </svg>
+        </div>
+        <div class="title-text" id="titleText">键鼠映射</div>
+      </div>
+      <div class="window-actions" aria-label="窗口控制">
+        <button class="win-btn about text-action" type="button" aria-label="关于软件" title="关于软件">
+          <span>关于软件</span>
+        </button>
+        <button class="win-btn settings text-action" type="button" aria-label="设置" title="设置">
+          <span>设置</span>
+        </button>
+        <button class="win-btn minimize" type="button" aria-label="最小化" title="最小化">
+          <svg viewBox="0 0 12 12"><path d="M2 6h8"/></svg>
+        </button>
+        <button class="win-btn close" type="button" aria-label="关闭" title="关闭">
+          <svg viewBox="0 0 12 12"><path d="M2.5 2.5l7 7M9.5 2.5l-7 7"/></svg>
+        </button>
+      </div>
+    </header>
+
+    <div class="content">
+      <aside class="sidebar">
+        <div class="brand">
+          <div class="brand-logo" aria-hidden="true">
+            <svg viewBox="0 0 32 32" fill="none">
+              <rect x="4.5" y="8" width="23" height="16" rx="3" stroke="currentColor" stroke-width="2"/>
+              <path d="M8 12h2M13 12h2M18 12h2M23 12h1M8 16h2M13 16h2M18 16h2M23 16h1M10 20h12" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+            </svg>
+          </div>
+          <div class="brand-title">键鼠映射</div>
+          <div class="brand-subtitle">让操作更高效</div>
+        </div>
+
+        <div class="add-area">
+          <button id="addMapping" class="add-btn" type="button">＋ 添加映射</button>
+          <div id="addWarning" class="add-warning" role="status" aria-live="polite">请先保存或删除“未保存”映射</div>
+        </div>
+
+        <div class="lock-note">
+          <svg viewBox="0 0 16 16"><rect x="3.3" y="7" width="9.4" height="6.5" rx="1.5"/><path d="M5.2 7V5.4A2.8 2.8 0 0 1 8 2.7a2.8 2.8 0 0 1 2.8 2.7V7"/></svg>
+          <span>鼠标左/右键不能单独映射。</span>
+        </div>
+      </aside>
+
+      <main class="main">
+        <section class="panel" aria-label="映射管理区域">
+          <div class="panel-head">
+            <div class="panel-title"><span class="panel-title-dot"></span>映射管理</div>
+            <div id="count" class="count"></div>
+          </div>
+          <div id="mappingList" class="mapping-list" aria-live="polite"></div>
+        </section>
+      </main>
+    </div>
+
+    <div id="confirmBackdrop" class="confirm-backdrop" aria-hidden="true">
+      <div class="confirm-dialog" role="dialog" aria-modal="true" aria-labelledby="confirmTitle" aria-describedby="confirmText">
+        <div id="confirmTitle" class="confirm-title">确认删除映射？</div>
+        <div id="confirmText" class="confirm-text">删除后无法恢复。</div>
+        <div class="confirm-actions">
+          <button id="confirmCancel" class="confirm-btn" type="button">取消</button>
+          <button id="confirmDelete" class="confirm-btn danger" type="button">删除</button>
+        </div>
+      </div>
+    </div>
+
+    <div id="settingsBackdrop" class="settings-backdrop" aria-hidden="true">
+      <section class="settings-dialog" role="dialog" aria-modal="true" aria-labelledby="settingsTitle">
+        <div class="settings-head">
+          <div id="settingsTitle" class="settings-title">设置</div>
+          <button id="settingsClose" class="settings-close" type="button" aria-label="关闭设置">×</button>
+        </div>
+        <div class="settings-list">
+          <div class="settings-row">
+            <div>
+              <div class="settings-name">开机自启</div>
+              <div class="settings-desc">登录 Windows 后自动运行</div>
+            </div>
+            <button class="settings-switch" type="button" role="switch" data-setting="autoStart" aria-label="开机自启"></button>
+          </div>
+          <div class="settings-row">
+            <div>
+              <div class="settings-name">托盘图标</div>
+              <div class="settings-desc">在任务栏右下角显示程序图标</div>
+            </div>
+            <button class="settings-switch" type="button" role="switch" data-setting="trayIcon" aria-label="托盘图标"></button>
+          </div>
+        </div>
+      </section>
+    </div>
+
+    <div id="aboutBackdrop" class="about-backdrop" aria-hidden="true">
+      <section class="about-dialog" role="dialog" aria-modal="true" aria-labelledby="aboutTitle">
+        <div class="about-head">
+          <div id="aboutTitle" class="about-title">关于软件</div>
+          <button id="aboutClose" class="about-close" type="button" aria-label="关闭关于软件">×</button>
+        </div>
+        <div class="about-body">
+          <div class="about-info">
+            <div><strong>产品名称：</strong>键鼠映射</div>
+            <div><strong>版本号：</strong><span id="aboutVersion">v1.6</span></div>
+            <div><strong>开源协议：</strong>MIT</div>
+          </div>
+          <div class="about-section-title">更新日志</div>
+          <div class="version-card">
+            <div class="version-title">1.6 版本更新说明：</div>
+            <ul>
+              <li>支持最多三个按键的组合映射，按下立即生效，任一原始按键松开后解除</li>
+              <li>映射前检查前缀冲突；冲突和限制提示显示在左侧</li>
+              <li>鼠标左/右键不能作为原始按键单独映射，但可以作为映射目标</li>
+              <li>优化鼠标侧键映射，修复侧键导致界面空白</li>
+            </ul>
+          </div>
+          <div class="version-card">
+            <div class="version-title">1.5 版本更新说明：</div>
+            <ul>
+              <li>增加 开启/关闭 开机自启映射软件（修改注册表方式）</li>
+              <li>增加隐藏托盘图标的功能</li>
+            </ul>
+          </div>
+          <div class="version-card">
+            <div class="version-title">1.4 版本更新说明：</div>
+            <ul>
+              <li>限制软件只能运行一个窗口，防止多开窗口导致映射混乱</li>
+            </ul>
+          </div>
+          <div class="version-card">
+            <div class="version-title">1.3 版本更新说明：</div>
+            <ul>
+              <li>更改映射配置的保存路径，当前保存路径为 C盘的 AppData/Roaming/键鼠映射/键鼠映射.ini</li>
+            </ul>
+          </div>
+          <div class="version-card">
+            <div class="version-title">1.2 版本更新说明：</div>
+            <ul>
+              <li>优化 GUI 界面</li>
+              <li>限制同一个按键被多次映射</li>
+            </ul>
+          </div>
+          <div class="version-card">
+            <div class="version-title">1.1 版本更新说明：</div>
+            <ul>
+              <li>简化映射流程，可通过按键自动获取按键编码，无需再手动输入</li>
+              <li>为防止误操作导致鼠标的左右键失效，软件默认禁止了鼠标的左右键映射。</li>
+            </ul>
+          </div>
+          <div class="version-card">
+            <div class="version-title">1.0 版本发布：</div>
+            <ul>
+              <li>键鼠映射工具是一款轻量级的系统外设增强软件。专注于解决用户在多任务场景下频繁切换按键功能与鼠标按键定义的痛点。本工具旨在提供一个简洁、直观的界面，让您能够快速、便捷地更改键盘按键的映射关系及鼠标按键的功能定义，无需修改注册表或重启计算机。</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+    </div>
+  </div>
+
+</body>
+</html>

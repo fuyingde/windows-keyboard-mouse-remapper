@@ -1,0 +1,23 @@
+Third-party notices
+===================
+
+This project vendors WebViewToo, which itself embeds additional components.
+
+WebViewToo.ahk
+--------------
+Copyright (c) 2025 Ryan Dingman (known also as Panaku, The-CoDingman)
+https://github.com/The-CoDingman/WebViewToo
+License: MIT (see Lib/WebViewToo.ahk)
+
+WebViewToo includes WebView2 bindings derived from work by thqby:
+https://github.com/thqby/ahk2_lib
+
+WebView2Loader
+--------------
+WebView2Loader.dll (32-bit and 64-bit) is Copyright (C) Microsoft Corporation.
+All rights reserved. It is redistributed as embedded machine code inside
+Lib/WebViewToo.ahk for loading the Microsoft Edge WebView2 Runtime.
+
+The Microsoft Edge WebView2 Runtime is a separate system component and is not
+included in this repository. See:
+https://developer.microsoft.com/microsoft-edge/webview2/
