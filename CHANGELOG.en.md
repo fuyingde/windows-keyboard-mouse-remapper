@@ -1,6 +1,6 @@
 # Changelog
 
-This file records the main changes to the open-source edition of Key Mouse Mapper
+This file records the main changes to the open-source edition of Keyboard & Mouse Remapper for Windows
 
 ## 1.7
 

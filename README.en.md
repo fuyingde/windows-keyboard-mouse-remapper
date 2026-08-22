@@ -1,4 +1,4 @@
-<h1 align="center">Key Mouse Mapper v1.7</h1>
+<h1 align="center">Keyboard &amp; Mouse Remapper for Windows v1.7</h1>
 
 <p align="center">A lightweight, straightforward, real-time keyboard and mouse remapper for Windows</p>
 
@@ -8,7 +8,7 @@
 </p>
 
 <p align="center">
-  <a href="https://github.com/fuyingde/key-mouse-mapper/releases/latest"><img src="https://img.shields.io/github/v/release/fuyingde/key-mouse-mapper?label=release&color=1769e8" alt="Latest release"></a>
+  <a href="https://github.com/fuyingde/windows-keyboard-mouse-remapper/releases/latest"><img src="https://img.shields.io/github/v/release/fuyingde/windows-keyboard-mouse-remapper?label=release&color=1769e8" alt="Latest release"></a>
   <img src="https://img.shields.io/badge/Windows-10%20%7C%2011-1769e8" alt="Windows 10 and 11">
   <a href="./LICENSE"><img src="https://img.shields.io/badge/license-GPL--2.0--only-4c8bf5" alt="GPL-2.0-only license"></a>
 </p>
@@ -16,18 +16,18 @@
 Remap keyboard keys and mouse buttons without changing the system's keyboard-layout registry or restarting Windows. Record a source and a target, save the mapping, and enable it. Exit the app to stop every mapping and restore the original input.
 
 <p align="center">
-  <strong><a href="https://github.com/fuyingde/key-mouse-mapper/releases/latest">Download the latest release</a></strong>
+  <strong><a href="https://github.com/fuyingde/windows-keyboard-mouse-remapper/releases/latest">Download the latest release</a></strong>
   · <a href="#get-started-in-three-steps">Quick start</a>
-  · <a href="https://github.com/fuyingde/key-mouse-mapper/issues">Report an issue</a>
+  · <a href="https://github.com/fuyingde/windows-keyboard-mouse-remapper/issues">Report an issue</a>
 </p>
 
 > Download the release EXE and run it directly without setting up a development environment
 
 This tool focuses on lightweight, straightforward keyboard and mouse remapping. It does not provide scripting macros, game-controller mapping, per-application profiles, or complex automation. Configure a mapping once and use it globally. The app does not connect to the network on its own, is free to use, contains no advertising or promotional pop-ups, and stays quietly out of the way while it works.
 
-## Why choose Key Mouse Mapper
+## Why choose Keyboard & Mouse Remapper for Windows
 
-Some remapping solutions require users to edit the registry, enter key codes manually, install a large utility suite, or restart Windows. Key Mouse Mapper is intended for users who want to complete essential keyboard and mouse remapping quickly:
+Some remapping solutions require users to edit the registry, enter key codes manually, install a large utility suite, or restart Windows. Keyboard & Mouse Remapper for Windows is intended for users who want to complete essential keyboard and mouse remapping quickly:
 
 - Record keys visually without memorizing key names or writing configuration files
 - Apply mappings immediately and restore original input when the app exits, without permanently changing system keys
@@ -37,11 +37,11 @@ Some remapping solutions require users to edit the registry, enter key codes man
 - Inspect and build the published source code
 - Choose from seven built-in interface languages
 
-Key Mouse Mapper performs remapping while it is running instead of permanently changing system keys through the registry. Mappings therefore stop and original input is restored when the app exits completely. To reduce daily setup, the app provides Start with Windows and a tray-icon visibility option, allowing it to start with Windows and run quietly in the background when desired.
+Keyboard & Mouse Remapper for Windows performs remapping while it is running instead of permanently changing system keys through the registry. Mappings therefore stop and original input is restored when the app exits completely. To reduce daily setup, the app provides Start with Windows and a tray-icon visibility option, allowing it to start with Windows and run quietly in the background when desired.
 
 ## Interface preview
 
-![Key Mouse Mapper in English](./docs/images/app-en-us.png)
+![Keyboard and Mouse Remapper for Windows in English](./docs/images/app-en-us.png)
 
 <details>
 <summary>View the other six interface languages</summary>
@@ -81,7 +81,7 @@ Typical uses include replacing a broken or awkward key, customizing mouse side b
 
 ## Get started in three steps
 
-1. Open [Releases](https://github.com/fuyingde/key-mouse-mapper/releases/latest) and download `KeyMouseMapper-OpenSource-v1.7.exe` from Assets
+1. Open [Releases](https://github.com/fuyingde/windows-keyboard-mouse-remapper/releases/latest) and download `KeyMouseMapper-OpenSource-v1.7.exe` from Assets
 2. Run the app, choose an interface language on first launch, and select “Add Mapping”
 3. Record the source and target, save the mapping, and select its checkbox to enable it
 
@@ -128,8 +128,8 @@ See [CHANGELOG.en.md](./CHANGELOG.en.md) for the complete history.
 Running or building from source requires the appropriate Windows script runtime and compiler for the source files in this project.
 
 ```powershell
-git clone https://github.com/fuyingde/key-mouse-mapper.git
-cd key-mouse-mapper
+git clone https://github.com/fuyingde/windows-keyboard-mouse-remapper.git
+cd windows-keyboard-mouse-remapper
 powershell -NoProfile -ExecutionPolicy Bypass -File .\build.ps1
 ```
 
@@ -176,7 +176,7 @@ build.ps1                Validation and build script
 
 ## Questions and feedback
 
-Use [Issues](https://github.com/fuyingde/key-mouse-mapper/issues) to report a problem, ask for help, or suggest a feature. Please include your Windows version, app version, reproduction steps, and expected result whenever possible.
+Use [Issues](https://github.com/fuyingde/windows-keyboard-mouse-remapper/issues) to report a problem, ask for help, or suggest a feature. Please include your Windows version, app version, reproduction steps, and expected result whenever possible.
 
 ## License
 

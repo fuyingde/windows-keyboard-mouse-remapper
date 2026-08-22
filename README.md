@@ -2,13 +2,15 @@
 
 <p align="center">一款轻量、直观、实时生效的 Windows 键盘与鼠标按键映射工具</p>
 
+<p align="center"><strong>Keyboard &amp; Mouse Remapper for Windows</strong></p>
+
 <p align="center">
   <a href="./README.md">简体中文</a> ·
   <a href="./README.en.md">English</a>
 </p>
 
 <p align="center">
-  <a href="https://github.com/fuyingde/key-mouse-mapper/releases/latest"><img src="https://img.shields.io/github/v/release/fuyingde/key-mouse-mapper?label=release&color=1769e8" alt="最新版本"></a>
+  <a href="https://github.com/fuyingde/windows-keyboard-mouse-remapper/releases/latest"><img src="https://img.shields.io/github/v/release/fuyingde/windows-keyboard-mouse-remapper?label=release&color=1769e8" alt="最新版本"></a>
   <img src="https://img.shields.io/badge/Windows-10%20%7C%2011-1769e8" alt="Windows 10 和 11">
   <a href="./LICENSE"><img src="https://img.shields.io/badge/license-GPL--2.0--only-4c8bf5" alt="GPL-2.0-only 许可证"></a>
 </p>
@@ -16,9 +18,9 @@
 无需修改系统按键注册表，也不必重启电脑。录制原始按键和目标按键、保存并勾选，映射立即生效；退出软件后，映射立即失效并恢复原始输入。
 
 <p align="center">
-  <strong><a href="https://github.com/fuyingde/key-mouse-mapper/releases/latest">前往 Releases 下载最新版</a></strong>
+  <strong><a href="https://github.com/fuyingde/windows-keyboard-mouse-remapper/releases/latest">前往 Releases 下载最新版</a></strong>
   · <a href="#三步开始使用">快速上手</a>
-  · <a href="https://github.com/fuyingde/key-mouse-mapper/issues">反馈问题</a>
+  · <a href="https://github.com/fuyingde/windows-keyboard-mouse-remapper/issues">反馈问题</a>
 </p>
 
 > 下载 Release 中的 EXE 即可直接使用，无需配置开发环境
@@ -81,7 +83,7 @@
 
 ## 三步开始使用
 
-1. 打开 [Releases](https://github.com/fuyingde/key-mouse-mapper/releases/latest)，在 Assets 中下载 `KeyMouseMapper-OpenSource-v1.7.exe`
+1. 打开 [Releases](https://github.com/fuyingde/windows-keyboard-mouse-remapper/releases/latest)，在 Assets 中下载 `KeyMouseMapper-OpenSource-v1.7.exe`
 2. 运行软件，首次启动时选择界面语言，然后点击“添加映射”
 3. 依次录制原始按键和目标按键，保存并勾选该条映射
 
@@ -128,8 +130,8 @@
 从源码运行或编译时，需要自行准备与项目源码对应的 Windows 脚本运行和编译环境。
 
 ```powershell
-git clone https://github.com/fuyingde/key-mouse-mapper.git
-cd key-mouse-mapper
+git clone https://github.com/fuyingde/windows-keyboard-mouse-remapper.git
+cd windows-keyboard-mouse-remapper
 powershell -NoProfile -ExecutionPolicy Bypass -File .\build.ps1
 ```
 
@@ -176,7 +178,7 @@ build.ps1                校验和构建脚本
 
 ## 问题与建议
 
-欢迎通过 [Issues](https://github.com/fuyingde/key-mouse-mapper/issues) 报告问题、咨询使用方法或提出功能建议。提交问题时请尽量注明 Windows 版本、软件版本、操作步骤和预期结果。
+欢迎通过 [Issues](https://github.com/fuyingde/windows-keyboard-mouse-remapper/issues) 报告问题、咨询使用方法或提出功能建议。提交问题时请尽量注明 Windows 版本、软件版本、操作步骤和预期结果。
 
 ## 开源许可
 

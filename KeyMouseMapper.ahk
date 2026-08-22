@@ -251,7 +251,7 @@ OpenAuthorWebsite() {
 
 OpenRepositoryWebsite() {
     try {
-        Run "https://github.com/fuyingde/key-mouse-mapper"
+        Run "https://github.com/fuyingde/windows-keyboard-mouse-remapper"
         return ResultJson(true, "")
     } catch {
         return ResultJson(false, T("message.openRepositoryFailed"))

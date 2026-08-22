@@ -1,7 +1,7 @@
 (() => {
   const APP_VERSION = '1.7';
   const AUTHOR_URL = 'https://www.imtr.cn/keymousetools';
-  const REPOSITORY_URL = 'https://github.com/fuyingde/key-mouse-mapper';
+  const REPOSITORY_URL = 'https://github.com/fuyingde/windows-keyboard-mouse-remapper';
   const $ = selector => document.querySelector(selector);
   document.body.classList.add('app-booting');
 
