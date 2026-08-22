@@ -32,6 +32,44 @@
 
 **SHA-256**
 
-`AF640FDDF5D84448791BC15A25E8E9AF3642DC37F019B631A90798650FE9F051`
+`CA76C6DEC7C33506000E2A0E9D707BCF395D8BE64A457C02E78924CD090B5929`
 
 完整功能、源码编译和使用限制请查看仓库首页
+
+---
+
+## English
+
+Keyboard & Mouse Remapper for Windows v1.7 is a lightweight keyboard and mouse remapping tool. Mappings take effect immediately without permanently changing system keys or restarting Windows. Download the EXE below and run it directly without setting up a development environment
+
+### What's new in v1.7
+
+- Source and target combinations containing up to three keys
+- Bidirectional prefix-conflict detection for source combinations
+- Multiple mappings can use the same key or combination as their target
+- Added Traditional Chinese, Korean, German, French, and Russian
+- Improved the mapping list, Settings, About, and Help
+
+### Quick start
+
+1. Download and run `KeyMouseMapper-OpenSource-v1.7.exe`
+2. Choose an interface language on first launch
+3. Select “Add Mapping” and record the source and target
+4. Save the mapping and select its checkbox to enable it
+
+Clear a mapping's checkbox to restore the original input immediately. Closing the window keeps enabled mappings running in the tray; use “Exit” from the tray menu to stop the app completely
+
+### Requirements
+
+- 64-bit Windows 10 or Windows 11
+- Microsoft Edge WebView2 Runtime, already present on most systems
+
+Run this tool as administrator when mapping input inside an application that also runs as administrator
+
+### Safety
+
+The app does not collect or upload user configuration. Because it uses global input hooks and simulated input, a small number of security products may report a false positive. Verify the source code and SHA-256 below if needed
+
+**SHA-256**
+
+`CA76C6DEC7C33506000E2A0E9D707BCF395D8BE64A457C02E78924CD090B5929`
