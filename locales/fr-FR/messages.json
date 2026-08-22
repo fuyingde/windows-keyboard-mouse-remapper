@@ -1,0 +1,21 @@
+{
+  "message.languageUnavailable": "La langue sélectionnée n'est pas disponible.",
+  "message.languageSaveFailed": "Impossible d'enregistrer la langue. La langue sélectionnée sera utilisée uniquement pour cette session.",
+  "message.windowTopMostFailed": "Impossible de modifier le réglage Toujours au premier plan.",
+  "message.openWebsiteFailed": "Impossible d'ouvrir le site de l'auteur dans le navigateur par défaut.",
+  "message.openRepositoryFailed": "Impossible d'ouvrir le dépôt du code source dans le navigateur par défaut.",
+  "message.autoStartSaveFailed": "Impossible d'enregistrer le réglage de démarrage automatique.",
+  "message.autoStartChangeFailed": "Impossible de modifier le réglage de démarrage automatique.",
+  "message.autoStartRejected": "Windows n'a pas appliqué le réglage de démarrage automatique.",
+  "message.traySaveFailed": "Impossible d'enregistrer le réglage de l'icône de notification.",
+  "message.mappingSourceRequired": "Enregistrez d'abord une touche d'entrée.",
+  "message.mappingDuplicate": "Cette combinaison d'entrée possède déjà un mappage.",
+  "message.mappingPrefixConflict": "Cette combinaison présente un conflit de préfixe avec « {mapping} ». Son déclenchement immédiat ne peut donc pas être garanti.",
+  "message.mappingNotFound": "Le mappage est introuvable.",
+  "message.comboTooLong": "Une combinaison ne peut pas contenir plus de 3 touches.",
+  "message.mouseProtectedMapping": "Les boutons gauche et droit de la souris ne peuvent pas être mappés seuls ni utilisés comme première touche d'une combinaison.",
+  "message.mappingEnableFailed": "Impossible d'activer la touche « {key} ».",
+  "message.mappingSourceEmpty": "La touche d'entrée ne peut pas être vide.",
+  "message.wheelSourceLast": "Une direction de molette n'a pas d'état maintenu et ne peut être que la dernière touche d'entrée.",
+  "message.comboDuplicateKey": "Une même touche ne peut pas apparaître deux fois dans une combinaison."
+}

@@ -1,0 +1,4 @@
+{
+  "log.mappingEnabled": "Mappage activé : {source} → {target}",
+  "log.mappingDisabled": "Mappage désactivé : {source}"
+}

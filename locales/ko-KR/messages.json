@@ -1,0 +1,21 @@
+{
+  "message.languageUnavailable": "선택한 언어를 사용할 수 없습니다.",
+  "message.languageSaveFailed": "언어 설정을 저장할 수 없습니다. 이번 실행에서는 선택한 언어를 임시로 사용합니다.",
+  "message.windowTopMostFailed": "창의 항상 위 설정을 변경할 수 없습니다.",
+  "message.openWebsiteFailed": "기본 브라우저에서 제작자 웹사이트를 열 수 없습니다.",
+  "message.openRepositoryFailed": "기본 브라우저에서 소스 저장소를 열 수 없습니다.",
+  "message.autoStartSaveFailed": "자동 시작 설정을 저장할 수 없습니다.",
+  "message.autoStartChangeFailed": "자동 시작 설정을 변경할 수 없습니다.",
+  "message.autoStartRejected": "Windows에서 자동 시작 설정을 적용하지 못했습니다.",
+  "message.traySaveFailed": "알림 영역 아이콘 설정을 저장할 수 없습니다.",
+  "message.mappingSourceRequired": "먼저 입력 키를 기록하세요.",
+  "message.mappingDuplicate": "이 입력 키 조합에는 이미 매핑이 있습니다.",
+  "message.mappingPrefixConflict": "“{mapping}”의 접두 조합과 충돌하여 즉시 실행을 보장할 수 없습니다.",
+  "message.mappingNotFound": "매핑을 찾을 수 없습니다.",
+  "message.comboTooLong": "키 조합에는 최대 3개의 키만 사용할 수 있습니다.",
+  "message.mouseProtectedMapping": "마우스 왼쪽 및 오른쪽 버튼은 단독으로 매핑하거나 조합의 첫 번째 키로 사용할 수 없습니다.",
+  "message.mappingEnableFailed": "키 “{key}”을(를) 활성화할 수 없습니다.",
+  "message.mappingSourceEmpty": "입력 키는 비워 둘 수 없습니다.",
+  "message.wheelSourceLast": "휠 방향에는 눌림 상태가 없으므로 입력 조합의 마지막 키로만 사용할 수 있습니다.",
+  "message.comboDuplicateKey": "같은 조합에 동일한 키를 두 번 사용할 수 없습니다."
+}

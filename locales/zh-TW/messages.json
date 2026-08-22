@@ -1,0 +1,21 @@
+{
+  "message.languageUnavailable": "所選語言無法使用。",
+  "message.languageSaveFailed": "無法儲存語言設定。本次執行將暫時使用您選擇的語言。",
+  "message.windowTopMostFailed": "無法變更視窗置頂狀態。",
+  "message.openWebsiteFailed": "無法使用預設瀏覽器開啟作者網站。",
+  "message.openRepositoryFailed": "無法使用預設瀏覽器開啟開源儲存庫。",
+  "message.autoStartSaveFailed": "無法儲存開機自動啟動設定。",
+  "message.autoStartChangeFailed": "無法變更開機自動啟動設定。",
+  "message.autoStartRejected": "Windows 未接受開機自動啟動設定。",
+  "message.traySaveFailed": "無法儲存系統匣圖示設定。",
+  "message.mappingSourceRequired": "請先錄製原始按鍵。",
+  "message.mappingDuplicate": "此原始按鍵組合已有映射。",
+  "message.mappingPrefixConflict": "此組合與「{mapping}」存在前綴衝突，無法保證立即觸發。",
+  "message.mappingNotFound": "找不到此映射。",
+  "message.comboTooLong": "按鍵組合最多只能包含 3 個按鍵。",
+  "message.mouseProtectedMapping": "滑鼠左鍵和右鍵不能單獨映射，也不能作為組合中的第一個按鍵。",
+  "message.mappingEnableFailed": "無法啟用按鍵「{key}」。",
+  "message.mappingSourceEmpty": "原始按鍵不能為空。",
+  "message.wheelSourceLast": "滾輪方向沒有按住狀態，只能作為原始組合中的最後一個按鍵。",
+  "message.comboDuplicateKey": "同一組合中不能重複出現相同按鍵。"
+}

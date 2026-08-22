@@ -1,0 +1,21 @@
+{
+  "message.languageUnavailable": "Выбранный язык недоступен.",
+  "message.languageSaveFailed": "Не удалось сохранить язык. Выбранный язык будет использоваться только в этом сеансе.",
+  "message.windowTopMostFailed": "Не удалось изменить режим отображения поверх остальных окон.",
+  "message.openWebsiteFailed": "Не удалось открыть сайт автора в браузере по умолчанию.",
+  "message.openRepositoryFailed": "Не удалось открыть репозиторий исходного кода в браузере по умолчанию.",
+  "message.autoStartSaveFailed": "Не удалось сохранить настройку автозапуска.",
+  "message.autoStartChangeFailed": "Не удалось изменить настройку автозапуска.",
+  "message.autoStartRejected": "Windows не применила настройку автозапуска.",
+  "message.traySaveFailed": "Не удалось сохранить настройку значка в области уведомлений.",
+  "message.mappingSourceRequired": "Сначала запишите исходную клавишу.",
+  "message.mappingDuplicate": "Для этой исходной комбинации уже существует переназначение.",
+  "message.mappingPrefixConflict": "Комбинация конфликтует с префиксом «{mapping}», поэтому мгновенное срабатывание не гарантируется.",
+  "message.mappingNotFound": "Переназначение не найдено.",
+  "message.comboTooLong": "Комбинация может содержать не более 3 клавиш.",
+  "message.mouseProtectedMapping": "Левую и правую кнопки мыши нельзя переназначать отдельно или использовать первой клавишей комбинации.",
+  "message.mappingEnableFailed": "Не удалось активировать клавишу «{key}».",
+  "message.mappingSourceEmpty": "Исходная клавиша не может быть пустой.",
+  "message.wheelSourceLast": "Направление колеса не имеет удерживаемого состояния и может быть только последней исходной клавишей.",
+  "message.comboDuplicateKey": "Одна клавиша не может повторяться в одной комбинации."
+}

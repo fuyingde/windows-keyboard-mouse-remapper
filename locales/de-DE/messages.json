@@ -1,0 +1,21 @@
+{
+  "message.languageUnavailable": "Die ausgewählte Sprache ist nicht verfügbar.",
+  "message.languageSaveFailed": "Die Spracheinstellung konnte nicht gespeichert werden. Die ausgewählte Sprache wird nur für diese Sitzung verwendet.",
+  "message.windowTopMostFailed": "Die Einstellung „Immer im Vordergrund“ konnte nicht geändert werden.",
+  "message.openWebsiteFailed": "Die Website des Autors konnte nicht im Standardbrowser geöffnet werden.",
+  "message.openRepositoryFailed": "Das Quellcode-Repository konnte nicht im Standardbrowser geöffnet werden.",
+  "message.autoStartSaveFailed": "Die Autostart-Einstellung konnte nicht gespeichert werden.",
+  "message.autoStartChangeFailed": "Die Autostart-Einstellung konnte nicht geändert werden.",
+  "message.autoStartRejected": "Windows hat die Autostart-Einstellung nicht übernommen.",
+  "message.traySaveFailed": "Die Einstellung für das Infobereich-Symbol konnte nicht gespeichert werden.",
+  "message.mappingSourceRequired": "Zeichnen Sie zuerst eine Eingabetaste auf.",
+  "message.mappingDuplicate": "Für diese Eingabekombination ist bereits eine Zuordnung vorhanden.",
+  "message.mappingPrefixConflict": "Diese Kombination weist einen Präfixkonflikt mit „{mapping}“ auf. Eine sofortige Auslösung kann daher nicht garantiert werden.",
+  "message.mappingNotFound": "Die Zuordnung wurde nicht gefunden.",
+  "message.comboTooLong": "Eine Tastenkombination darf höchstens 3 Tasten enthalten.",
+  "message.mouseProtectedMapping": "Die linke und rechte Maustaste können weder einzeln zugeordnet noch als erste Taste einer Kombination verwendet werden.",
+  "message.mappingEnableFailed": "Die Taste „{key}“ konnte nicht aktiviert werden.",
+  "message.mappingSourceEmpty": "Die Eingabetaste darf nicht leer sein.",
+  "message.wheelSourceLast": "Eine Mausradrichtung hat keinen gehaltenen Zustand und kann nur die letzte Eingabetaste sein.",
+  "message.comboDuplicateKey": "Eine Taste darf in derselben Kombination nicht doppelt vorkommen."
+}

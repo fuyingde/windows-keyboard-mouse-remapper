@@ -1,0 +1,4 @@
+{
+  "log.mappingEnabled": "已啟用映射：{source} → {target}",
+  "log.mappingDisabled": "已停用映射：{source}"
+}

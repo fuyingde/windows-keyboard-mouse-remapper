@@ -1,0 +1,46 @@
+# Changelog
+
+This file records the main changes to the open-source edition of Key Mouse Mapper
+
+## 1.7
+
+- Added source and target combinations containing up to three keys
+- Added bidirectional prefix-conflict checks for source combinations
+- Allowed multiple mappings to use the same key or combination as their target
+- Added Traditional Chinese, Korean, German, French, and Russian
+- Improved the mapping list, Settings, About, and Help
+
+## 1.6
+
+- Improved mouse side-button mapping
+- Fixed a blank interface caused by mouse side buttons
+
+## 1.5
+
+- Added Start with Windows and tray icon options
+- Added background operation after closing, tray restoration, and single-instance activation
+
+## 1.4
+
+- Improved startup, tray, and single-instance behavior
+- Changed Start with Windows to use the current-user registry
+- Changed the startup registry value name to FuYing.KeyMouseTools
+
+## 1.3
+
+- Allowed copies of the app under one user account to share mappings
+
+## 1.2
+
+- Completed mapping save, load, and delete behavior
+- Improved mapping edit states and feedback
+
+## 1.1
+
+- Improved key capture and mapping stability
+- Improved the base interface and interactions
+
+## 1.0
+
+- Released the first Key Mapping version
+- Added creation, saving, and execution of single-key mappings

@@ -1,0 +1,4 @@
+{
+  "log.mappingEnabled": "매핑 활성화: {source} → {target}",
+  "log.mappingDisabled": "매핑 비활성화: {source}"
+}

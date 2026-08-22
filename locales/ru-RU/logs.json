@@ -1,0 +1,4 @@
+{
+  "log.mappingEnabled": "Переназначение включено: {source} → {target}",
+  "log.mappingDisabled": "Переназначение отключено: {source}"
+}

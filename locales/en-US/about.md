@@ -1,0 +1,1 @@
+Key Mouse Mapper v1.7 is a lightweight Windows keyboard and mouse utility for custom key mapping. Changes take effect immediately without restarting Windows. Because the app does not modify the registry for mapping behavior, all mappings stop working after the app exits.

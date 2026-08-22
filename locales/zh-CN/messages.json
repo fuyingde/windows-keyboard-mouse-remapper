@@ -1,0 +1,21 @@
+{
+  "message.languageUnavailable": "所选语言不可用。",
+  "message.languageSaveFailed": "无法保存语言设置。本次运行将临时使用您选择的语言。",
+  "message.windowTopMostFailed": "无法修改窗口置顶状态。",
+  "message.openWebsiteFailed": "无法使用默认浏览器打开作者网址。",
+  "message.openRepositoryFailed": "无法使用默认浏览器打开开源仓库。",
+  "message.autoStartSaveFailed": "无法保存开机自启设置。",
+  "message.autoStartChangeFailed": "无法修改开机自启。",
+  "message.autoStartRejected": "系统没有接受开机自启设置。",
+  "message.traySaveFailed": "无法保存托盘图标设置。",
+  "message.mappingSourceRequired": "请先录制原始按键。",
+  "message.mappingDuplicate": "这个原始按键组合已经存在映射。",
+  "message.mappingPrefixConflict": "与“{mapping}”存在前缀冲突，无法保证按下后立即生效。",
+  "message.mappingNotFound": "没有找到这条映射。",
+  "message.comboTooLong": "组合键最多只能包含 3 个按键。",
+  "message.mouseProtectedMapping": "鼠标左键和右键不能单独映射，也不能位于组合键第一位。",
+  "message.mappingEnableFailed": "无法启用按键“{key}”。",
+  "message.mappingSourceEmpty": "原始按键不能为空。",
+  "message.wheelSourceLast": "滚轮没有持续按住状态，只能位于原始组合键的最后一位。",
+  "message.comboDuplicateKey": "同一个组合键中不能重复使用按键。"
+}

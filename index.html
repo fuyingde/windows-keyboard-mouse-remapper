@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>键鼠映射</title>
+  <title>键鼠映射工具 V1.7 （开源版）</title>
 <style>
   :root {
     --app-bg: #F4F7FB;
@@ -25,11 +25,12 @@
 
   html, body {
     margin: 0;
-    min-width: 960px;
-    min-height: 550px;
+    min-width: 1020px;
+    min-height: 600px;
     font-family: "Microsoft YaHei", "PingFang SC", "Segoe UI", Arial, sans-serif;
     background: #EAF0F7;
     color: var(--text-normal);
+    user-select: none;
   }
 
   body {
@@ -43,13 +44,15 @@
 
   .app {
     position: relative;
-    width: 960px;
-    height: 550px;
+    width: 1020px;
+    height: 600px;
     overflow: hidden;
     background: var(--app-bg);
     border: 1px solid #DDE4ED;
     box-shadow: 0 10px 30px rgba(35, 55, 85, 0.10);
   }
+
+  .app, .app * { user-select: none; }
 
   .titlebar {
     height: 42px;
@@ -89,6 +92,51 @@
     letter-spacing: .1px;
   }
 
+  .global-input-control {
+    height: 24px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-left: 33px;
+    font-size: 11px;
+    -webkit-app-region: no-drag;
+  }
+
+  .global-input-switch {
+    position: relative;
+    width: 36px;
+    height: 20px;
+    padding: 0;
+    border: 0;
+    border-radius: 999px;
+    background: #C8D0DC;
+    cursor: pointer;
+  }
+
+  .global-input-switch::after {
+    content: '';
+    position: absolute;
+    left: 3px;
+    top: 3px;
+    width: 14px;
+    height: 14px;
+    border-radius: 50%;
+    background: #FFFFFF;
+    box-shadow: 0 1px 3px rgba(24, 37, 59, .22);
+    transition: transform .16s ease;
+  }
+
+  .global-input-switch.on { background: #2D73F5; }
+  .global-input-switch.on::after { transform: translateX(16px); }
+  .global-input-disabled-note {
+    display: none;
+    color: #D93F45;
+    font-size: 11px;
+    white-space: nowrap;
+  }
+
+  .global-input-control.off .global-input-disabled-note { display: inline; }
+
   .window-actions {
     height: 100%;
     display: flex;
@@ -110,28 +158,22 @@
   .win-btn:hover { background: #F0F3F7; }
   .win-btn.close:hover { background: #E81123; color: #fff; }
   .win-btn svg { width: 11px; height: 11px; stroke: currentColor; fill: none; stroke-width: 1.5; }
-  .win-btn.text-action {
-    width: auto;
-    min-width: 54px;
-    padding: 0 10px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: #59677B;
-    font-size: 11px;
-    white-space: nowrap;
-    cursor: pointer;
-  }
+  .win-btn.topmost svg { width: 14px; height: 14px; }
+  .win-btn.topmost.active { color: #1769E8; background: #E8F1FF; }
+  .win-btn.topmost.active svg { fill: rgba(23, 105, 232, .14); stroke-width: 1.8; }
 
   .content {
-    height: 508px;
+    height: 558px;
     min-height: 0;
     display: grid;
-    grid-template-columns: 226px minmax(0, 1fr);
+    grid-template-columns: 286px minmax(0, 1fr);
     overflow: hidden;
   }
 
   .sidebar {
+    --auto-bottom-offset: 16px;
+    --auto-control-gap: 9px;
+    --auto-status-height: 51px;
     position: relative;
     padding: 20px 17px 16px;
     background: #FBFCFE;
@@ -146,9 +188,9 @@
   }
 
   .brand-logo {
-    width: 52px;
-    height: 52px;
-    border-radius: 13px;
+    width: 64px;
+    height: 64px;
+    border-radius: 16px;
     display: grid;
     place-items: center;
     color: white;
@@ -156,7 +198,7 @@
     box-shadow: 0 6px 16px rgba(22,119,255,.18);
   }
 
-  .brand-logo svg { width: 30px; height: 30px; display: block; }
+  .brand-logo svg { width: 38px; height: 38px; display: block; }
 
   .brand-title {
     margin-top: 12px;
@@ -179,7 +221,7 @@
   .add-btn {
     display: block;
     margin: 0 auto;
-    width: 140px;
+    width: 180px;
     height: 42px;
     border: 0;
     border-radius: 10px;
@@ -196,7 +238,7 @@
 
   .add-warning {
     display: none;
-    width: 192px;
+    width: 242px;
     margin: 17px auto 0;
     color: #C7464B;
     font-size: 12px;
@@ -206,23 +248,168 @@
 
   .add-warning.show { display: block; }
 
-  .lock-note {
+  .hidden { display: none !important; }
+
+  .auto-controls {
     position: absolute;
-    left: 17px;
-    right: 17px;
-    bottom: 17px;
-    display: flex;
-    align-items: flex-start;
-    gap: 6px;
-    font-size: 11px;
-    line-height: 1.45;
-    color: var(--text-secondary);
+    left: 11px;
+    right: 11px;
+    bottom: calc(var(--auto-bottom-offset) + var(--auto-status-height) + var(--auto-control-gap));
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 9px 8px;
+    margin: 0;
   }
 
-  .lock-note svg { width: 12px; height: 12px; stroke: currentColor; fill: none; stroke-width: 1.8; }
+  .auto-hold-control {
+    position: absolute;
+    left: 11px;
+    right: 11px;
+    bottom: calc(var(--auto-bottom-offset) + var(--auto-status-height) + var(--auto-control-gap));
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+  }
+
+  .auto-hold-control .split-control {
+    width: 100%;
+  }
+
+  .split-control {
+    height: 38px;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 30px;
+    border: 1px solid #DCE4EF;
+    border-radius: 9px;
+    overflow: hidden;
+    background: #FFFFFF;
+    box-shadow: 0 2px 7px rgba(30, 50, 80, .04);
+  }
+
+  .split-control > button {
+    border: 0;
+    background: transparent;
+    color: #43516A;
+    cursor: pointer;
+  }
+
+  .split-control .run-control {
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    gap: 1px; font-size: 11.5px; font-weight: 400; line-height: 1.05;
+  }
+  .split-control .run-control span { white-space: nowrap; }
+  .split-control .run-control small { color: #98A2B3; font-size: 9px; font-weight: 400; }
+  .split-control .control-menu {
+    position: relative;
+    border-left: 1px solid #E4EAF2;
+    color: #758197;
+    display: grid;
+    place-items: center;
+  }
+  .split-control .control-menu svg { width: 12px; height: 12px; fill: none; stroke: currentColor; stroke-width: 1.7; }
+  .split-control > button:hover { background: #F3F7FC; color: #1769E8; }
+
+  .auto-status-card {
+    position: absolute;
+    left: 11px;
+    right: 11px;
+    bottom: var(--auto-bottom-offset);
+    height: var(--auto-status-height);
+    margin: 0;
+    padding: 0 12px;
+    border: 1px solid #E5EAF2;
+    border-radius: 10px;
+    background: #FFFFFF;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+  }
+  .auto-status-dot {
+    display: inline-block; width: 7px; height: 7px; margin-right: 7px;
+    border-radius: 50%; background: #AEB7C5;
+  }
+  .auto-status-card.running .auto-status-dot { background: #20A464; box-shadow: 0 0 0 3px rgba(32,164,100,.10); }
+  .auto-status-card.paused .auto-status-dot { background: #E8A324; }
+  .auto-status-text { font-size: 12.5px; font-weight: 600; color: #526076; }
+
+  .auto-toolbar {
+    display: flex; align-items: center; gap: 7px; margin-left: auto;
+  }
+  .mode-label { color: #8993A4; font-size: 11px; }
+  .activation-select {
+    height: 27px; padding: 0 25px 0 9px; border: 1px solid #DCE4EF;
+    border-radius: 7px; background: #FFFFFF; color: #526076; font-size: 11px;
+    cursor: pointer; outline: none;
+  }
+
+  .auto-item.locked {
+    background: #F6F7F9;
+    border-color: #E7E9ED;
+    color: #98A0AD;
+  }
+  .auto-check-wrap {
+    flex: 0 0 24px; width: 24px; height: 32px; display: grid; place-items: center;
+  }
+  .auto-check {
+    width: 16px; height: 16px; margin: 0; accent-color: #1677FF; cursor: pointer;
+  }
+  .auto-item.locked .auto-check-wrap { cursor: not-allowed; }
+  .auto-item.locked .auto-check { pointer-events: none; opacity: .42; }
+  .auto-combo {
+    flex: 0 0 212px; min-width: 0; height: 38px; display: flex; align-items: center;
+    justify-content: center; padding: 0 10px; border: 1px solid #DCEAFF;
+    border-radius: 8px; background: #EEF5FF; color: #2D4F84; font-size: 14px;
+    font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+  }
+  .auto-item.locked .auto-combo { border-color: #E2E5EA; background: #ECEEF2; color: #8F97A4; }
+  .auto-meta { min-width: 0; flex: 1; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; }
+  .auto-meta-cell { min-width: 0; text-align: center; }
+  .auto-meta-name { margin-bottom: 3px; color: #98A2B3; font-size: 10px; text-align: center; }
+  .auto-meta-value { color: #526076; font-size: 11.5px; text-align: center; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .auto-item.locked .auto-meta-value { color: #929AA7; }
+  .auto-item.independent .auto-meta { grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 5px; }
+
+  .editor-backdrop {
+    position: absolute; inset: 0; z-index: 1100; display: none;
+    align-items: center; justify-content: center; background: rgba(23,35,60,.20);
+  }
+  .editor-backdrop.show { display: flex; }
+  .editor-dialog {
+    width: 430px; padding: 19px; border: 1px solid #E1E7F0; border-radius: 14px;
+    background: #FFFFFF; box-shadow: 0 16px 42px rgba(25,42,70,.20);
+  }
+  .auto-editor-dialog { width: 440px; }
+  .editor-title { margin-bottom: 15px; color: #24334A; font-size: 16px; font-weight: 700; }
+  .editor-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; }
+  .editor-field.full { grid-column: 1 / -1; }
+  .auto-editor-dialog.independent-editor .auto-key-field { grid-column: span 2; }
+  .auto-editor-dialog.independent-editor #independentHotkeyField { grid-column: span 1; }
+  .editor-label { display: block; margin-bottom: 6px; color: #667085; font-size: 11.5px; }
+  .editor-label-row { height: 18px; display: flex; align-items: center; gap: 6px; margin-bottom: 6px; }
+  .editor-label-row .editor-label { min-width: 0; margin-bottom: 0; }
+  .editor-input, .editor-select, .editor-record {
+    width: 100%; height: 38px; border: 1px solid #DCE4EF; border-radius: 8px;
+    background: #FBFCFE; color: #344054; outline: none; font-size: 12px;
+  }
+  .editor-input { padding: 0 10px; user-select: text; }
+  .editor-select { padding: 0 9px; }
+  .editor-record { cursor: pointer; color: #1769E8; border-style: dashed; }
+  .editor-record.recording { border-style: solid; border-color: #1677FF; background: #F2F7FF; }
+  .editor-record-wrap { position: relative; width: 100%; height: 38px; }
+  .editor-record-wrap .editor-record { padding: 0 24px; }
+  .editor-actions { display: flex; justify-content: flex-end; gap: 8px; margin-top: 17px; }
+  .emergency-choices { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+  .emergency-choice {
+    height: 42px; display: flex; align-items: center; justify-content: center; gap: 8px;
+    border: 1px solid #DCE4EF; border-radius: 9px; background: #FBFCFE;
+    color: #43516A; font-size: 13px; cursor: pointer;
+  }
+  .emergency-choice:has(input:checked) { border-color: #8DBDFF; background: #F2F7FF; color: #1769E8; }
+  .emergency-choice input { width: 15px; height: 15px; margin: 0; accent-color: #1677FF; }
 
   .main {
-    height: 508px;
+    height: 558px;
     min-width: 0;
     min-height: 0;
     padding: 10px;
@@ -346,8 +533,8 @@
   }
 
   .keycap {
-    width: 222px;
-    min-width: 222px;
+    width: 104px;
+    min-width: 104px;
     height: 38px;
     display: inline-flex;
     align-items: center;
@@ -379,8 +566,6 @@
 
   .record-box {
     width: 222px;
-    min-width: 222px;
-    flex: 0 0 222px;
     height: 38px;
     display: inline-flex;
     align-items: center;
@@ -420,8 +605,9 @@
   .record-wrap {
     position: relative;
     width: 222px;
+    min-width: 0;
     height: 38px;
-    flex: 0 0 222px;
+    flex: 0 1 222px;
   }
 
   .record-wrap .record-box {
@@ -430,7 +616,8 @@
     text-align: center;
   }
 
-  .clear-target {
+  .clear-target,
+  .record-clear {
     position: absolute;
     z-index: 2;
     right: -5px;
@@ -450,7 +637,8 @@
     box-shadow: 0 1px 4px rgba(30, 50, 80, .10);
   }
 
-  .clear-target:hover {
+  .clear-target:hover,
+  .record-clear:hover {
     color: #667085;
     border-color: #C7D0DC;
     background: #F7F9FC;
@@ -488,7 +676,6 @@
   .mini-btn.danger:hover { background: #FFF7F7; border-color: #F4CCCC; }
   .mini-btn:disabled { opacity: .45; cursor: not-allowed; background: #F7F8FA; }
 
-  .mini-btn svg { width: 12px; height: 12px; stroke: currentColor; fill: none; stroke-width: 1.7; }
 
   .empty-state {
     height: 100%;
@@ -501,7 +688,7 @@
   .confirm-backdrop {
     position: absolute;
     inset: 0;
-    z-index: 1000;
+    z-index: 1300;
     display: none;
     align-items: center;
     justify-content: center;
@@ -559,139 +746,13 @@
   }
   .confirm-btn.danger:hover { background: #D93E43; }
 
-  .settings-backdrop,
-  .about-backdrop {
-    position: absolute;
-    inset: 0;
-    z-index: 1200;
-    display: none;
-    align-items: center;
-    justify-content: center;
-    background: rgba(25, 36, 55, .28);
-    -webkit-app-region: no-drag;
-  }
-  .settings-backdrop.show,
-  .about-backdrop.show { display: flex; }
-  .settings-dialog {
-    width: 410px;
-    padding: 22px;
-    border: 1px solid #E1E7F0;
-    border-radius: 17px;
-    background: #FFFFFF;
-    color: #1F2D43;
-  }
-  .settings-head,
-  .about-head {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    margin-bottom: 17px;
-  }
-  .settings-title,
-  .about-title { font-size: 18px; font-weight: 700; }
-  .settings-close,
-  .about-close {
-    width: 30px;
-    height: 30px;
-    border: 0;
-    border-radius: 8px;
-    background: transparent;
-    color: #6E7B8D;
-    font-size: 21px;
-    line-height: 28px;
-    cursor: pointer;
-  }
-  .settings-close:hover,
-  .about-close:hover { background: #F0F3F7; color: #27364C; }
-  .settings-list { display: grid; gap: 11px; }
-  .settings-row {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    min-height: 66px;
-    padding: 0 15px;
-    border: 1px solid #E5EAF2;
-    border-radius: 12px;
-    background: #FAFBFD;
-  }
-  .settings-name { margin-bottom: 4px; font-size: 14px; font-weight: 650; color: #24334A; }
-  .settings-desc { font-size: 11.5px; color: #8792A3; }
-  .settings-switch {
-    position: relative;
-    flex: 0 0 auto;
-    width: 44px;
-    height: 24px;
-    margin-left: 18px;
-    padding: 0;
-    border: 0;
-    border-radius: 999px;
-    background: #C8D0DC;
-    cursor: pointer;
-    transition: background .18s ease;
-  }
-  .settings-switch::after {
-    content: '';
-    position: absolute;
-    left: 3px;
-    top: 3px;
-    width: 18px;
-    height: 18px;
-    border-radius: 50%;
-    background: #FFFFFF;
-    transition: transform .18s ease;
-  }
-  .settings-switch.on { background: #2D73F5; }
-  .settings-switch.on::after { transform: translateX(20px); }
-  .settings-switch:disabled { cursor: wait; opacity: .65; }
-  .about-dialog {
-    display: flex;
-    flex-direction: column;
-    width: 470px;
-    height: 440px;
-    box-sizing: border-box;
-    padding: 22px;
-    border: 1px solid #E1E7F0;
-    border-radius: 17px;
-    background: #FFFFFF;
-    color: #1F2D43;
-  }
-  .about-head { flex: 0 0 auto; margin-bottom: 14px; }
-  .about-body { min-height: 0; overflow-y: auto; padding-right: 7px; }
-  .about-body::-webkit-scrollbar { width: 6px; }
-  .about-body::-webkit-scrollbar-track { background: transparent; }
-  .about-body::-webkit-scrollbar-thumb { border-radius: 999px; background: #CAD3E1; }
-  .about-info {
-    display: grid;
-    gap: 7px;
-    margin-bottom: 14px;
-    padding: 13px 15px;
-    border: 1px solid #E5EAF2;
-    border-radius: 12px;
-    background: #FAFBFD;
-    font-size: 13px;
-    color: #43516A;
-  }
-  .about-info strong { color: #24334A; font-weight: 650; }
-  .about-section-title { margin: 0 0 9px; font-size: 14px; font-weight: 700; color: #24334A; }
-  .version-card {
-    margin-bottom: 10px;
-    padding: 12px 14px;
-    border: 1px solid #DFE6F0;
-    border-radius: 12px;
-    background: #FFFFFF;
-  }
-  .version-card:last-child { margin-bottom: 0; }
-  .version-title { margin-bottom: 7px; color: #2D73F5; font-size: 13px; font-weight: 700; }
-  .version-card ul { margin: 0; padding-left: 18px; color: #5F6D82; font-size: 12px; line-height: 1.65; }
-  .version-card li + li { margin-top: 3px; }
-
-  @media (max-width: 649px), (max-height: 549px) {
+  @media (max-width: 1019px), (max-height: 599px) {
     body { overflow: auto; }
   }
 </style>
 </head>
 <body>
-  <div class="app" role="application" aria-label="键鼠映射">
+  <div class="app" role="application" aria-label="键鼠映射工具">
     <header class="titlebar">
       <div class="titlebar-left">
         <div class="title-icon" aria-hidden="true">
@@ -700,19 +761,17 @@
             <path d="M6 9h1M10 9h1M14 9h1M18 9h.1M6 12h1M10 12h1M14 12h1M18 12h.1M7 15h10" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
           </svg>
         </div>
-        <div class="title-text" id="titleText">键鼠映射</div>
+        <div class="title-text">键鼠映射工具 V1.7 （开源版）</div>
+        <div class="global-input-control"><button id="globalInputSwitch" class="global-input-switch on" type="button" role="switch" aria-label="启用或关闭按键接管" aria-checked="true"></button><span id="globalInputDisabledNote" class="global-input-disabled-note">已禁止所有的按键脚本，释放所有热键</span></div>
       </div>
       <div class="window-actions" aria-label="窗口控制">
-        <button class="win-btn about text-action" type="button" aria-label="关于软件" title="关于软件">
-          <span>关于软件</span>
+        <button class="win-btn topmost" aria-label="窗口置顶" aria-pressed="false">
+          <svg viewBox="0 0 16 16"><path d="M5 2.5h6M6 2.5l.5 3-2 2v1h7v-1l-2-2 .5-3M8 8.5v5" stroke-linecap="round" stroke-linejoin="round"/></svg>
         </button>
-        <button class="win-btn settings text-action" type="button" aria-label="设置" title="设置">
-          <span>设置</span>
-        </button>
-        <button class="win-btn minimize" type="button" aria-label="最小化" title="最小化">
+        <button class="win-btn minimize" aria-label="最小化">
           <svg viewBox="0 0 12 12"><path d="M2 6h8"/></svg>
         </button>
-        <button class="win-btn close" type="button" aria-label="关闭" title="关闭">
+        <button class="win-btn close" aria-label="关闭">
           <svg viewBox="0 0 12 12"><path d="M2.5 2.5l7 7M9.5 2.5l-7 7"/></svg>
         </button>
       </div>
@@ -736,16 +795,12 @@
           <div id="addWarning" class="add-warning" role="status" aria-live="polite">请先保存或删除“未保存”映射</div>
         </div>
 
-        <div class="lock-note">
-          <svg viewBox="0 0 16 16"><rect x="3.3" y="7" width="9.4" height="6.5" rx="1.5"/><path d="M5.2 7V5.4A2.8 2.8 0 0 1 8 2.7a2.8 2.8 0 0 1 2.8 2.7V7"/></svg>
-          <span>鼠标左/右键不能单独映射。</span>
-        </div>
       </aside>
 
       <main class="main">
         <section class="panel" aria-label="映射管理区域">
           <div class="panel-head">
-            <div class="panel-title"><span class="panel-title-dot"></span>映射管理</div>
+            <div id="panelTitle" class="panel-title"><span class="panel-title-dot"></span>映射管理</div>
             <div id="count" class="count"></div>
           </div>
           <div id="mappingList" class="mapping-list" aria-live="polite"></div>
@@ -764,96 +819,259 @@
       </div>
     </div>
 
-    <div id="settingsBackdrop" class="settings-backdrop" aria-hidden="true">
-      <section class="settings-dialog" role="dialog" aria-modal="true" aria-labelledby="settingsTitle">
-        <div class="settings-head">
-          <div id="settingsTitle" class="settings-title">设置</div>
-          <button id="settingsClose" class="settings-close" type="button" aria-label="关闭设置">×</button>
-        </div>
-        <div class="settings-list">
-          <div class="settings-row">
-            <div>
-              <div class="settings-name">开机自启</div>
-              <div class="settings-desc">登录 Windows 后自动运行</div>
-            </div>
-            <button class="settings-switch" type="button" role="switch" data-setting="autoStart" aria-label="开机自启"></button>
-          </div>
-          <div class="settings-row">
-            <div>
-              <div class="settings-name">托盘图标</div>
-              <div class="settings-desc">在任务栏右下角显示程序图标</div>
-            </div>
-            <button class="settings-switch" type="button" role="switch" data-setting="trayIcon" aria-label="托盘图标"></button>
-          </div>
-        </div>
-      </section>
-    </div>
-
-    <div id="aboutBackdrop" class="about-backdrop" aria-hidden="true">
-      <section class="about-dialog" role="dialog" aria-modal="true" aria-labelledby="aboutTitle">
-        <div class="about-head">
-          <div id="aboutTitle" class="about-title">关于软件</div>
-          <button id="aboutClose" class="about-close" type="button" aria-label="关闭关于软件">×</button>
-        </div>
-        <div class="about-body">
-          <div class="about-info">
-            <div><strong>产品名称：</strong>键鼠映射</div>
-            <div><strong>版本号：</strong><span id="aboutVersion">v1.6</span></div>
-            <div><strong>开源协议：</strong>MIT</div>
-          </div>
-          <div class="about-section-title">更新日志</div>
-          <div class="version-card">
-            <div class="version-title">1.6 版本更新说明：</div>
-            <ul>
-              <li>支持最多三个按键的组合映射，按下立即生效，任一原始按键松开后解除</li>
-              <li>映射前检查前缀冲突；冲突和限制提示显示在左侧</li>
-              <li>鼠标左/右键不能作为原始按键单独映射，但可以作为映射目标</li>
-              <li>优化鼠标侧键映射，修复侧键导致界面空白</li>
-            </ul>
-          </div>
-          <div class="version-card">
-            <div class="version-title">1.5 版本更新说明：</div>
-            <ul>
-              <li>增加 开启/关闭 开机自启映射软件（修改注册表方式）</li>
-              <li>增加隐藏托盘图标的功能</li>
-            </ul>
-          </div>
-          <div class="version-card">
-            <div class="version-title">1.4 版本更新说明：</div>
-            <ul>
-              <li>限制软件只能运行一个窗口，防止多开窗口导致映射混乱</li>
-            </ul>
-          </div>
-          <div class="version-card">
-            <div class="version-title">1.3 版本更新说明：</div>
-            <ul>
-              <li>更改映射配置的保存路径，当前保存路径为 C盘的 AppData/Roaming/键鼠映射/键鼠映射.ini</li>
-            </ul>
-          </div>
-          <div class="version-card">
-            <div class="version-title">1.2 版本更新说明：</div>
-            <ul>
-              <li>优化 GUI 界面</li>
-              <li>限制同一个按键被多次映射</li>
-            </ul>
-          </div>
-          <div class="version-card">
-            <div class="version-title">1.1 版本更新说明：</div>
-            <ul>
-              <li>简化映射流程，可通过按键自动获取按键编码，无需再手动输入</li>
-              <li>为防止误操作导致鼠标的左右键失效，软件默认禁止了鼠标的左右键映射。</li>
-            </ul>
-          </div>
-          <div class="version-card">
-            <div class="version-title">1.0 版本发布：</div>
-            <ul>
-              <li>键鼠映射工具是一款轻量级的系统外设增强软件。专注于解决用户在多任务场景下频繁切换按键功能与鼠标按键定义的痛点。本工具旨在提供一个简洁、直观的界面，让您能够快速、便捷地更改键盘按键的映射关系及鼠标按键的功能定义，无需修改注册表或重启计算机。</li>
-            </ul>
-          </div>
-        </div>
-      </section>
-    </div>
   </div>
 
+<script type="text/plain" id="legacyPrototype">
+(() => {
+  const mappingList = document.getElementById('mappingList');
+  const addButton = document.getElementById('addMapping');
+  const addWarning = document.getElementById('addWarning');
+  const countEl = document.getElementById('count');
+  const confirmBackdrop = document.getElementById('confirmBackdrop');
+  const confirmText = document.getElementById('confirmText');
+  const confirmCancel = document.getElementById('confirmCancel');
+  const confirmDelete = document.getElementById('confirmDelete');
+
+  let nextId = 1;
+  let mappings = [];
+
+  let recording = null;
+  let pendingDeleteId = null;
+
+  function keyLabel(event) {
+    const map = {
+      ' ': '空格',
+      'Escape': 'Esc',
+      'ArrowUp': '↑',
+      'ArrowDown': '↓',
+      'ArrowLeft': '←',
+      'ArrowRight': '→',
+      'Control': 'Ctrl',
+      'Meta': 'Win',
+      'Backspace': 'Backspace',
+      'Enter': 'Enter',
+      'Tab': 'Tab',
+      'CapsLock': 'Caps',
+      'Delete': 'Del'
+    };
+    if (map[event.key]) return map[event.key];
+    if (event.key.length === 1) return event.key.toUpperCase();
+    return event.key;
+  }
+
+  function showAddWarning() {
+    addWarning.classList.add('show');
+  }
+
+  function hideAddWarning() {
+    addWarning.classList.remove('show');
+  }
+
+  function openDeleteConfirm(item) {
+    pendingDeleteId = item.id;
+    confirmText.textContent = `确定删除“${item.from} → ${item.to || '无'}”这条映射吗？删除后无法恢复。`;
+    confirmBackdrop.classList.add('show');
+    confirmBackdrop.setAttribute('aria-hidden', 'false');
+    confirmDelete.focus();
+  }
+
+  function closeDeleteConfirm() {
+    pendingDeleteId = null;
+    confirmBackdrop.classList.remove('show');
+    confirmBackdrop.setAttribute('aria-hidden', 'true');
+  }
+
+  function updateCount() {
+    const saved = mappings.filter(m => m.saved).length;
+    const pending = mappings.filter(m => !m.saved).length;
+    countEl.textContent = pending ? `${saved} 条已保存 · ${pending} 条待保存` : `${saved} 条映射`;
+  }
+
+  function render() {
+    recording = null;
+    updateCount();
+
+    if (!mappings.length) {
+      mappingList.innerHTML = '<div class="empty-state">暂无映射，点击左侧“添加映射”开始。</div>';
+      return;
+    }
+
+    mappingList.innerHTML = mappings.map(item => {
+      if (!item.saved) {
+        return `
+          <div class="mapping-item unsaved" data-id="${item.id}">
+            <span class="status-tag">未保存</span>
+            <div class="map-flow">
+              <button type="button" class="record-box" data-action="record" data-field="from" aria-label="设置触发按键">${item.from || ''}</button>
+              <span class="arrow">→</span>
+              <span class="record-wrap">
+                <button type="button" class="record-box" data-action="record" data-field="to" aria-label="设置映射按键">${item.to || '无'}</button>
+                <button type="button" class="clear-target" data-action="clear-target" aria-label="清空映射">×</button>
+              </span>
+            </div>
+            <div class="item-actions">
+              <button type="button" class="mini-btn primary" data-action="save" ${!item.from ? 'disabled' : ''}>保存</button>
+              <button type="button" class="mini-btn danger" data-action="delete">删除</button>
+            </div>
+          </div>`;
+      }
+
+      if (item.editing) {
+        return `
+          <div class="mapping-item editing" data-id="${item.id}">
+            <span class="status-tag">修改中</span>
+            <div class="map-flow">
+              <button type="button" class="record-box" data-action="record" data-field="from" aria-label="设置触发按键">${item.from || ''}</button>
+              <span class="arrow">→</span>
+              <span class="record-wrap">
+                <button type="button" class="record-box" data-action="record" data-field="to" aria-label="设置映射按键">${item.to || '无'}</button>
+                <button type="button" class="clear-target" data-action="clear-target" aria-label="清空映射">×</button>
+              </span>
+            </div>
+            <div class="item-actions">
+              <button type="button" class="mini-btn primary" data-action="save-edit" ${!item.from ? 'disabled' : ''}>保存</button>
+              <button type="button" class="mini-btn" data-action="cancel-edit">取消</button>
+            </div>
+          </div>`;
+      }
+
+      return `
+        <div class="mapping-item" data-id="${item.id}">
+          <div class="map-flow">
+            <span class="record-box saved-value">${item.from}</span>
+            <span class="arrow">→</span>
+            <span class="record-box saved-value">${item.to || '无'}</span>
+          </div>
+          <div class="item-actions">
+            <button type="button" class="mini-btn" data-action="edit">修改</button>
+            <button type="button" class="mini-btn danger" data-action="delete">删除</button>
+          </div>
+        </div>`;
+    }).join('');
+  }
+
+  addButton.addEventListener('click', () => {
+    const existingUnsaved = mappings.find(m => !m.saved);
+    if (existingUnsaved) {
+      showAddWarning();
+      return;
+    }
+
+    hideAddWarning();
+    mappings.unshift({ id: nextId++, from: '', to: '', saved: false });
+    render();
+    mappingList.scrollTo({ top: 0, behavior: 'auto' });
+    const firstRecord = mappingList.querySelector('.unsaved .record-box');
+    if (firstRecord) firstRecord.focus();
+  });
+
+  mappingList.addEventListener('wheel', (event) => {
+    const maxScrollTop = mappingList.scrollHeight - mappingList.clientHeight;
+    if (maxScrollTop <= 0) return;
+
+    const nextTop = Math.max(0, Math.min(maxScrollTop, mappingList.scrollTop + event.deltaY));
+    if (nextTop !== mappingList.scrollTop) {
+      mappingList.scrollTop = nextTop;
+      event.preventDefault();
+    }
+  }, { passive: false });
+
+  mappingList.addEventListener('click', (event) => {
+    const button = event.target.closest('button[data-action]');
+    if (!button) return;
+
+    const row = button.closest('.mapping-item');
+    const id = Number(row.dataset.id);
+    const item = mappings.find(m => m.id === id);
+    if (!item) return;
+
+    const action = button.dataset.action;
+
+    if (action === 'record') {
+      mappingList.querySelectorAll('.record-box.recording').forEach(el => el.classList.remove('recording'));
+      button.classList.add('recording');
+      recording = { id, field: button.dataset.field, button };
+      button.focus();
+      return;
+    }
+
+    if (action === 'clear-target') {
+      item.to = '';
+      recording = null;
+      render();
+      return;
+    }
+
+    if (action === 'save') {
+      if (!item.from) return;
+      item.saved = true;
+      hideAddWarning();
+      render();
+      return;
+    }
+
+    if (action === 'edit') {
+      item.editing = true;
+      item.beforeEdit = { from: item.from, to: item.to };
+      render();
+      return;
+    }
+
+    if (action === 'save-edit') {
+      if (!item.from) return;
+      item.editing = false;
+      delete item.beforeEdit;
+      render();
+      return;
+    }
+
+    if (action === 'cancel-edit') {
+      if (item.beforeEdit) {
+        item.from = item.beforeEdit.from;
+        item.to = item.beforeEdit.to;
+      }
+      item.editing = false;
+      delete item.beforeEdit;
+      render();
+      return;
+    }
+
+    if (action === 'delete') {
+      if (item.saved) {
+        openDeleteConfirm(item);
+        return;
+      }
+
+      mappings = mappings.filter(m => m.id !== id);
+      hideAddWarning();
+      render();
+    }
+  });
+
+  confirmCancel.addEventListener('click', closeDeleteConfirm);
+
+  confirmDelete.addEventListener('click', () => {
+    if (pendingDeleteId === null) return;
+    mappings = mappings.filter(m => m.id !== pendingDeleteId);
+    closeDeleteConfirm();
+    render();
+  });
+
+  confirmBackdrop.addEventListener('click', (event) => {
+    if (event.target === confirmBackdrop) closeDeleteConfirm();
+  });
+
+  // bridge.js 是桌面版的唯一交互入口，避免旧脚本抢先处理键盘事件。
+  document.addEventListener('keydown', () => {}, true);
+
+  document.addEventListener('click', (event) => {
+    if (!recording) return;
+    if (event.target.closest('.record-box')) return;
+    render();
+  });
+
+  render();
+})();
+</script>
 </body>
 </html>

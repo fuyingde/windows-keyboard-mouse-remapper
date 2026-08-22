@@ -1,0 +1,4 @@
+{
+  "log.mappingEnabled": "Zuordnung aktiviert: {source} → {target}",
+  "log.mappingDisabled": "Zuordnung deaktiviert: {source}"
+}

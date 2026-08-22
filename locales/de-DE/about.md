@@ -1,0 +1,1 @@
+Tasten- und Mauszuordnung v1.7 ist ein schlankes Hilfsprogramm für Tastatur und Maus unter Windows. Es ermöglicht die freie Zuordnung von Tasten und Maustasten; Änderungen werden ohne Neustart des Computers sofort wirksam. Da die App die Registrierung nicht für die Zuordnungen verändert, werden beim Beenden alle Zuordnungen deaktiviert.

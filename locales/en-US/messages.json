@@ -1,0 +1,21 @@
+{
+  "message.languageUnavailable": "The selected language is unavailable.",
+  "message.languageSaveFailed": "Unable to save the language setting. Your selected language will be used for this session only.",
+  "message.windowTopMostFailed": "Unable to change the always-on-top setting.",
+  "message.openWebsiteFailed": "Unable to open the author website in the default browser.",
+  "message.openRepositoryFailed": "Unable to open the source repository in the default browser.",
+  "message.autoStartSaveFailed": "Unable to save the startup setting.",
+  "message.autoStartChangeFailed": "Unable to change the startup setting.",
+  "message.autoStartRejected": "Windows did not accept the startup setting.",
+  "message.traySaveFailed": "Unable to save the tray icon setting.",
+  "message.mappingSourceRequired": "Record a source key first.",
+  "message.mappingDuplicate": "This source key combination already has a mapping.",
+  "message.mappingPrefixConflict": "This conflicts with the prefix of “{mapping}”, so immediate activation cannot be guaranteed.",
+  "message.mappingNotFound": "The mapping was not found.",
+  "message.comboTooLong": "A key combination can contain no more than 3 keys.",
+  "message.mouseProtectedMapping": "The left and right mouse buttons cannot be mapped alone or used as the first key in a combination.",
+  "message.mappingEnableFailed": "Unable to enable the key “{key}”.",
+  "message.mappingSourceEmpty": "The source key cannot be empty.",
+  "message.wheelSourceLast": "A wheel direction has no held state and can only be the last source key.",
+  "message.comboDuplicateKey": "A key cannot appear twice in the same combination."
+}
