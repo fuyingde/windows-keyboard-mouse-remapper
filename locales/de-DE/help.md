@@ -30,7 +30,7 @@ Die Tastenzuordnung wandelt eine Taste oder Tastenkombination in eine andere Tas
 
 ## Bildschirmtastatur {#mapping-virtual}
 
-- Über „Bildschirmtastatur“ links neben der Hilfe in der Titelleiste öffnen Sie eine Standard-Tastatur mit 104 Tasten. „Tastatur ausblenden“ schließt sie wieder.
+- Wählen Sie in der Titelleiste „Bildschirmtastatur“, um sie zu öffnen; erneut wählen blendet sie aus.
 - Die Tastatur dockt standardmäßig am unteren Fensterrand an. Ist der sichtbare Arbeitsbereich zu niedrig, wird sie zu einem verschiebbaren schwebenden Feld.
 - Bildschirmtasten werden nur in das gerade aufgenommene Zuordnungsfeld geschrieben. Sie werden nicht an das System gesendet und lösen keine gespeicherten Zuordnungen aus.
 - Aktivieren Sie zuerst das Aufnahmefeld für Eingabe oder Ausgabe. Ein Klick auf eine Bildschirmtaste ohne aktive Aufnahme fordert Sie auf, zuerst die Zuordnungsaufnahme zu starten.

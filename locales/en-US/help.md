@@ -30,7 +30,7 @@ Key Mapping converts a key or key combination into another key or combination.
 
 ## Virtual Keyboard {#mapping-virtual}
 
-- Use “Virtual Keyboard” to the left of Help in the title bar to open a standard 104-key on-screen keyboard. Select “Hide Keyboard” to close it.
+- Select “Virtual Keyboard” in the title bar to open the on-screen keyboard; select it again to hide it.
 - The keyboard docks to the bottom of the window by default. If the current screen work area is too short, it becomes a draggable floating panel.
 - Virtual keys are written only to the mapping field currently being recorded. They are not sent to the system and do not trigger saved mappings.
 - Activate a source or target recording field first. Clicking a virtual key before recording starts shows a prompt to activate mapping capture.

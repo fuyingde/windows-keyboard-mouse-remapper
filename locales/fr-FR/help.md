@@ -30,7 +30,7 @@ Le mappage des touches transforme une touche ou une combinaison en une autre tou
 
 ## Clavier virtuel {#mapping-virtual}
 
-- Utilisez « Clavier virtuel » à gauche de l'aide dans la barre de titre pour ouvrir un clavier standard 104 touches. « Masquer le clavier » le ferme.
+- Cliquez sur « Clavier virtuel » dans la barre de titre pour l'ouvrir ; un second clic le masque.
 - Le clavier s'ancre par défaut en bas de la fenêtre. Si la zone de travail de l'écran est trop basse, il devient un panneau flottant déplaçable.
 - Les touches virtuelles s'écrivent uniquement dans le champ de mappage en cours d'enregistrement. Elles ne sont pas envoyées au système et ne déclenchent pas les mappages enregistrés.
 - Activez d'abord un champ d'enregistrement d'entrée ou de sortie. Un clic sur une touche virtuelle hors enregistrement demande d'activer d'abord la saisie.
