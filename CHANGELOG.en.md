@@ -2,6 +2,11 @@
 
 This file records the main changes to the open-source edition of Keyboard & Mouse Remapper for Windows
 
+## 1.8
+
+- Fixed mapped keys firing only once instead of repeating
+- Added a virtual keyboard so damaged or unpressable keys can be recorded on screen
+
 ## 1.7
 
 - Added source and target combinations containing up to three keys

@@ -1,4 +1,4 @@
-<h1 align="center">Keyboard &amp; Mouse Remapper for Windows v1.7</h1>
+<h1 align="center">Keyboard &amp; Mouse Remapper for Windows v1.8</h1>
 
 <p align="center">A lightweight, straightforward, real-time keyboard and mouse remapper for Windows</p>
 
@@ -81,7 +81,7 @@ Typical uses include replacing a broken or awkward key, customizing mouse side b
 
 ## Get started in three steps
 
-1. Open [Releases](https://github.com/fuyingde/windows-keyboard-mouse-remapper/releases/latest) and download `KeyMouseMapper-OpenSource-v1.7.exe` from Assets
+1. Open [Releases](https://github.com/fuyingde/windows-keyboard-mouse-remapper/releases/latest) and download `KeyMouseMapper-OpenSource-v1.8.exe` from Assets
 2. Run the app, choose an interface language on first launch, and select “Add Mapping”
 3. Record the source and target, save the mapping, and select its checkbox to enable it
 
@@ -113,13 +113,10 @@ To remap input inside an application running as administrator, run this tool as 
 
 This app uses global input hooks and simulated input, so a small number of security products may report a false positive. Download builds from this repository's Releases and compare the published SHA-256, or inspect the source and build it yourself.
 
-## What's new in v1.7
+## What's new in v1.8
 
-- Source and target combinations of up to three keys
-- Bidirectional source-prefix conflict detection
-- Multiple mappings can use the same key or combination as their target
-- Added Traditional Chinese, Korean, German, French, and Russian
-- Improved the mapping list, settings, About dialog, and Help
+- Fixed mapped keys firing only once instead of repeating
+- Added a virtual keyboard so damaged or unpressable keys can be recorded on screen
 
 See [CHANGELOG.en.md](./CHANGELOG.en.md) for the complete history.
 

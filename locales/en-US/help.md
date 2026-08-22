@@ -26,7 +26,17 @@ Key Mapping converts a key or key combination into another key or combination.
 - The left and right mouse buttons cannot be mapped alone or used as the first key in a combination.
 - After pressing another key, either mouse button can be recorded as the second or third key.
 - Other mappings are suspended while recording. The left and right mouse buttons continue to click normally outside the active recording field.
-- Recording is allowed only while Key Mouse Mapper is the foreground window. Switching windows, minimizing, or hiding the app cancels recording immediately.
+- Recording is allowed only while Key Mouse Mapper is the foreground window. Switching windows, minimizing, or hiding the app ends recording: clicked virtual keys are submitted, otherwise recording is cancelled.
+
+## Virtual Keyboard {#mapping-virtual}
+
+- Use “Virtual Keyboard” to the left of Help in the title bar to open a standard 104-key on-screen keyboard. Select “Hide Keyboard” to close it.
+- The keyboard docks to the bottom of the window by default. If the current screen work area is too short, it becomes a draggable floating panel.
+- Virtual keys are written only to the mapping field currently being recorded. They are not sent to the system and do not trigger saved mappings.
+- Activate a source or target recording field first. Clicking a virtual key before recording starts shows a prompt to activate mapping capture.
+- “Confirm” above the numpad is unavailable until you click a virtual key. After one or two virtual keys, select “Confirm” to finish. Three keys complete automatically.
+- Physical and virtual keys can be mixed in press or click order. After a virtual key is used, releasing a physical key does not finish recording. Confirm, reach three keys, or click outside the recording field.
+- Clicking empty space, switching windows, minimizing, or hiding the app finishes recording: already clicked virtual keys are submitted; otherwise recording is cancelled.
 
 # Settings {#settings}
 

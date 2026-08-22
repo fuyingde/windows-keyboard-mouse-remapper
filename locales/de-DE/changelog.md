@@ -1,3 +1,8 @@
+## 1.8
+
+- Behoben, dass zugeordnete Tasten nur einmal ausgelöst wurden und nicht wiederholt wurden
+- Bildschirmtastatur hinzugefügt, damit beschädigte oder nicht drückbare Tasten erfasst werden können
+
 ## 1.7
 
 - Zuordnung von Kombinationen mit bis zu drei Tasten hinzugefügt

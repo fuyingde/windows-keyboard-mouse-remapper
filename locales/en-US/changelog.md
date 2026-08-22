@@ -1,3 +1,8 @@
+## 1.8
+
+- Fixed mapped keys firing only once instead of repeating
+- Added a virtual keyboard so damaged or unpressable keys can be recorded on screen
+
 ## 1.7
 
 - Added mapping combinations of up to three keys

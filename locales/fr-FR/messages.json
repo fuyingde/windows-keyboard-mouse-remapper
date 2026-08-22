@@ -17,5 +17,6 @@
   "message.mappingEnableFailed": "Impossible d'activer la touche « {key} ».",
   "message.mappingSourceEmpty": "La touche d'entrée ne peut pas être vide.",
   "message.wheelSourceLast": "Une direction de molette n'a pas d'état maintenu et ne peut être que la dernière touche d'entrée.",
-  "message.comboDuplicateKey": "Une même touche ne peut pas apparaître deux fois dans une combinaison."
+  "message.comboDuplicateKey": "Une même touche ne peut pas apparaître deux fois dans une combinaison.",
+  "message.virtualKeyboardNeedCapture": "Veuillez d'abord activer la saisie"
 }

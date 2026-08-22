@@ -1,9 +1,9 @@
 #Requires AutoHotkey v2.0
 #Warn All, StdOut
 #SingleInstance Off
-;@Ahk2Exe-SetVersion 1.7.0.0
+;@Ahk2Exe-SetVersion 1.8.0.0
 ;@Ahk2Exe-SetName KeyMouseMapper
-;@Ahk2Exe-SetDescription Key Mouse Mapper v1.7 Open Source
+;@Ahk2Exe-SetDescription Key Mouse Mapper v1.8 Open Source
 #Include Lib\WebViewToo.ahk
 #Include Core\GeneratedLocales.ahk
 #Include Core\LanguageCore.ahk
@@ -26,7 +26,7 @@ global App := {
     ipcTitle: "KeyMouseMapper-IPC-{9A01C16D-7C45-4F94-9C84-719A01E32A90}",
     showMessage: 0x8001,
     pendingShow: false,
-    version: "1.7",
+    version: "1.8",
     locale: "zh-CN",
     languageSelected: false,
     trayConfigured: false,
@@ -82,7 +82,7 @@ BuildGui() {
         DirCreate(webViewDataDir)
         stage := "create-webview"
         DevTrace("gui create webview start")
-        App.gui := WebViewGui("-Caption -Resize +MinSize1020x600 +MaxSize1020x600", AppWindowTitle(),, {
+        App.gui := WebViewGui("-Caption -Resize +MinSize1020x600 +MaxSize1020x1200", AppWindowTitle(),, {
             DefaultWidth: 1020, DefaultHeight: 600, DataDir: webViewDataDir
         })
         DevTrace("gui create webview done")
@@ -322,11 +322,8 @@ InputCaptureWindowMonitor(*) {
 }
 
 CancelInputCapturesForWindowChange(*) {
-    mappingWasActive := MappingIsCaptureActive()
-    if mappingWasActive {
-        MappingCancelCapture()
-        MappingNotifyCancelled()
-    }
+    if MappingIsCaptureActive()
+        FinishCaptureOrCancel()
     SetTimer(InputCaptureWindowMonitor, 0)
 }
 
@@ -369,6 +366,69 @@ ShowApp(*) {
         WinActivate("ahk_id " App.gui.Hwnd)
         App.pendingShow := false
     }
+}
+
+GetAppWorkArea(&left, &top, &right, &bottom) {
+    global App
+    App.gui.GetPos(&x, &y, &w, &h)
+    cx := x + w // 2
+    cy := y + h // 2
+    count := MonitorGetCount()
+    Loop count {
+        MonitorGetWorkArea(A_Index, &left, &top, &right, &bottom)
+        if cx >= left && cx < right && cy >= top && cy < bottom
+            return
+    }
+    MonitorGetWorkArea(MonitorGetPrimary(), &left, &top, &right, &bottom)
+}
+
+RestoreBaseWindowSize() {
+    global App
+    App.gui.GetPos(&x, &y)
+    GetAppWorkArea(&left, &top, &right, &bottom)
+    if y + 600 > bottom
+        y := bottom - 600
+    if y < top
+        y := top
+    App.gui.Move(x, y, 1020, 600)
+}
+
+SetVirtualKeyboardVisible(visible, panelHeight := 240) {
+    global App
+    if !IsObject(App.gui)
+        return ResultJson(false, "")
+    visible := ToBool(visible)
+    panelHeight := Integer(panelHeight)
+    if panelHeight < 120
+        panelHeight := 240
+    if !visible {
+        RestoreBaseWindowSize()
+        return ResultJson(true, "", ',"mode":"hidden"')
+    }
+
+    GetAppWorkArea(&left, &top, &right, &bottom)
+    neededHeight := 600 + panelHeight
+    if (bottom - top) < neededHeight {
+        RestoreBaseWindowSize()
+        return ResultJson(true, "", ',"mode":"floating"')
+    }
+
+    App.gui.GetPos(&x, &y)
+    newY := y
+    if y + neededHeight > bottom
+        newY := bottom - neededHeight
+    if newY < top
+        newY := top
+    if x < left
+        x := left
+    if x + 1020 > right
+        x := Max(left, right - 1020)
+    try App.gui.Move(x, newY, 1020, neededHeight)
+    catch {
+        RestoreBaseWindowSize()
+        return ResultJson(true, "", ',"mode":"floating"')
+    }
+    return ResultJson(true, "", ',"mode":"docked"')
 }
 
 ExitFromTray(*) {

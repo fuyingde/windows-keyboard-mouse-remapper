@@ -4,7 +4,7 @@ global Mapping := {
     rows: [], nextId: 1, enabled: false, suspended: false,
     activeCapture: 0, captureKeys: [], captureDown: Map(), ignoreUntilUp: Map(), captureHook: 0,
     installedSourceHotkeys: Map(), pressedKeys: Map(), pressOrder: [], activeMappings: Map(),
-    suppressedKeys: Map()
+    suppressedKeys: Map(), vkPointerInside: false
 }
 
 MappingInitialize() {
@@ -145,7 +145,7 @@ BeginCapture(id, field, pointerInside := true) {
     MappingDisableHotkeys()
     Mapping.suspended := true
     Mapping.activeCapture := {id: Integer(id), field: String(field), pointerInside: ToBool(pointerInside),
-        allowBackground: false}
+        allowBackground: false, virtualUsed: false}
     Mapping.captureKeys := []
     Mapping.captureDown := Map()
     Mapping.ignoreUntilUp := Map()
@@ -170,6 +170,12 @@ SetMappingCapturePointerInside(inside) {
     global Mapping
     if IsObject(Mapping.activeCapture)
         Mapping.activeCapture.pointerInside := ToBool(inside)
+    return true
+}
+
+SetVirtualKeyboardPointerInside(inside) {
+    global Mapping
+    Mapping.vkPointerInside := ToBool(inside)
     return true
 }
 
@@ -200,9 +206,7 @@ MappingCaptureEnded(ih) {
     global Mapping
     if !IsObject(Mapping.activeCapture) || Mapping.captureHook != ih
         return
-    capture := Mapping.activeCapture
-    MappingCancelCapture()
-    MappingNotifyCancelled(capture)
+    FinishCaptureOrCancel()
 }
 
 MappingCaptureKeyDown(ih, vk, sc) {
@@ -250,7 +254,7 @@ MappingCaptureKeyUp(ih, vk, sc) {
     }
     if Mapping.captureDown.Has(lower)
         Mapping.captureDown.Delete(lower)
-    if Mapping.captureKeys.Length && Mapping.captureDown.Count = 0
+    if Mapping.captureKeys.Length && Mapping.captureDown.Count = 0 && MappingCaptureShouldAutoComplete()
         MappingScheduleCompleteCapture()
 }
 
@@ -275,8 +279,12 @@ MappingCaptureMouseDownActive(name, *) {
     if !IsObject(Mapping.activeCapture)
         return false
     ; 左右键作为第一个键时，仅在当前激活的录制框内部拦截；框外交还给界面。
-    if IsProtectedMouse(name) && Mapping.captureKeys.Length = 0
-        return Mapping.activeCapture.pointerInside
+    if IsProtectedMouse(name) {
+        if Mapping.vkPointerInside
+            return false
+        if Mapping.captureKeys.Length = 0
+            return Mapping.activeCapture.pointerInside
+    }
     return true
 }
 
@@ -324,8 +332,15 @@ MappingCaptureMouseUp(name, *) {
     }
     if Mapping.captureDown.Has(lower)
         Mapping.captureDown.Delete(lower)
-    if Mapping.captureKeys.Length && Mapping.captureDown.Count = 0
+    if Mapping.captureKeys.Length && Mapping.captureDown.Count = 0 && MappingCaptureShouldAutoComplete()
         MappingScheduleCompleteCapture()
+}
+
+MappingCaptureShouldAutoComplete() {
+    global Mapping
+    if !IsObject(Mapping.activeCapture)
+        return false
+    return !(Mapping.activeCapture.HasOwnProp("virtualUsed") && Mapping.activeCapture.virtualUsed)
 }
 
 MappingScheduleCompleteCapture() {
@@ -345,8 +360,61 @@ MappingCompleteCapture() {
         return
     capture := Mapping.activeCapture
     combo := JoinCombo(Mapping.captureKeys)
+    label := DisplayCombo(combo)
     MappingCancelCapture()
-    SendCaptureToWeb(capture.id, capture.field, combo, DisplayCombo(combo))
+    SendCaptureToWeb(capture.id, capture.field, combo, label)
+}
+
+AppendVirtualCaptureKey(keyName) {
+    global Mapping
+    if !IsObject(Mapping.activeCapture)
+        return ResultJson(false, T("message.virtualKeyboardNeedCapture"))
+    if Mapping.activeCapture.HasOwnProp("completionPending") && Mapping.activeCapture.completionPending
+        return ResultJson(false, "")
+    keyName := Trim(String(keyName))
+    if keyName = ""
+        return ResultJson(false, "")
+    lower := StrLower(keyName)
+    if Mapping.ignoreUntilUp.Has(lower) || Mapping.captureDown.Has(lower) || ComboArrayHasKey(Mapping.captureKeys, keyName)
+        return ResultJson(true, "", ',"virtualUsed":true,"count":' Mapping.captureKeys.Length)
+    if Mapping.captureKeys.Length >= 3 {
+        NotifyCaptureWarning(T("message.comboTooLong"))
+        return ResultJson(false, T("message.comboTooLong"))
+    }
+    if IsProtectedMouse(keyName) && Mapping.captureKeys.Length = 0
+        return ResultJson(false, T("message.mouseProtectedMapping"))
+    Mapping.captureKeys.Push(keyName)
+    Mapping.activeCapture.virtualUsed := true
+    MappingNotifyProgress()
+    if Mapping.captureKeys.Length >= 3 {
+        MappingCompleteCapture()
+        return ResultJson(true, "", ',"virtualUsed":true,"completed":true,"count":3')
+    }
+    return ResultJson(true, "", ',"virtualUsed":true,"completed":false,"count":' Mapping.captureKeys.Length)
+}
+
+ConfirmVirtualCapture() {
+    global Mapping
+    if !IsObject(Mapping.activeCapture)
+        return ResultJson(false, T("message.virtualKeyboardNeedCapture"))
+    if !Mapping.captureKeys.Length || !(Mapping.activeCapture.HasOwnProp("virtualUsed") && Mapping.activeCapture.virtualUsed)
+        return ResultJson(false, T("message.virtualKeyboardNeedCapture"))
+    MappingCompleteCapture()
+    return ResultJson(true, "")
+}
+
+FinishCaptureOrCancel() {
+    global Mapping
+    if !IsObject(Mapping.activeCapture)
+        return ResultJson(true, "", ',"finished":false')
+    if Mapping.captureKeys.Length && Mapping.activeCapture.HasOwnProp("virtualUsed") && Mapping.activeCapture.virtualUsed {
+        MappingCompleteCapture()
+        return ResultJson(true, "", ',"finished":true')
+    }
+    capture := Mapping.activeCapture
+    MappingCancelCapture()
+    MappingNotifyCancelled(capture)
+    return ResultJson(true, "", ',"finished":false')
 }
 
 MappingNotifyProgress() {
@@ -493,11 +561,39 @@ MappingSourceDown(keyName, *) {
         MappingRemovePressOrder(keyName)
         return
     }
-    if Mapping.pressedKeys.Has(lower)
+    if Mapping.pressedKeys.Has(lower) {
+        ; 源键连发时只重复已激活映射的目标键，不再重新匹配或重复按下。
+        MappingRepeatActive(keyName)
         return
+    }
     Mapping.pressedKeys[lower] := keyName
     MappingPushPressOrder(keyName)
     MappingTryActivate()
+}
+
+MappingRepeatActive(keyName) {
+    global Mapping
+    lower := StrLower(keyName)
+    for id, row in Mapping.activeMappings {
+        if !row.sourceKeys.Length
+            continue
+        ; 只有最后一个映射前按键的连发会重复目标，前缀修饰键连发不额外触发。
+        if StrLower(row.sourceKeys[row.sourceKeys.Length]) != lower
+            continue
+        MappingRepeatTarget(row.targetKeys)
+    }
+}
+
+MappingRepeatTarget(keys) {
+    if !IsObject(keys)
+        return
+    Loop keys.Length {
+        keyName := keys[keys.Length - A_Index + 1]
+        if IsWheel(keyName) || IsAnyMouseButton(keyName)
+            continue
+        SendPhysicalKey(keyName, "down")
+        return
+    }
 }
 
 MappingSourceUp(keyName, *) {

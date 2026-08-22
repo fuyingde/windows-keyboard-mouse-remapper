@@ -1,3 +1,8 @@
+## 1.8
+
+- Correction des touches mappées qui ne se déclenchaient qu'une seule fois au lieu de se répéter
+- Ajout d'un clavier virtuel pour enregistrer les touches endommagées ou inutilisables
+
 ## 1.7
 
 - Ajout des mappages de combinaisons comprenant jusqu'à trois touches

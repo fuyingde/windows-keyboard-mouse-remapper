@@ -119,7 +119,8 @@ SendPhysicalKey(target, action) {
         Click(target " " (action = "down" ? "Down" : "Up"))
         return
     }
-    try SendEvent("{Blind}{" target " " action "}")
+    ; DownR 与官方 remap 一致：首次按下和连发都发可重复的按下，避免按键卡住。
+    try SendEvent("{Blind}{" target " " (action = "down" ? "DownR" : action) "}")
 }
 
 SendCombo(keys, action) {

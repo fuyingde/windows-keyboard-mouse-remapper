@@ -26,7 +26,17 @@ Le mappage des touches transforme une touche ou une combinaison en une autre tou
 - Les boutons gauche et droit de la souris ne peuvent pas être mappés seuls ni utilisés comme première touche d'une combinaison.
 - Après avoir appuyé sur une autre touche, le bouton gauche ou droit peut être enregistré comme deuxième ou troisième touche.
 - Les autres mappages sont suspendus pendant l'enregistrement. Les boutons gauche et droit continuent à fonctionner normalement en dehors du champ d'enregistrement actif.
-- L'enregistrement est autorisé uniquement lorsque l'outil de mappage clavier-souris est au premier plan. Changer de fenêtre, réduire ou masquer l'application annule immédiatement l'enregistrement.
+- L'enregistrement est autorisé uniquement lorsque l'outil de mappage clavier-souris est au premier plan. Changer de fenêtre, réduire ou masquer l'application termine l'enregistrement : les touches virtuelles déjà choisies sont validées, sinon l'enregistrement est annulé.
+
+## Clavier virtuel {#mapping-virtual}
+
+- Utilisez « Clavier virtuel » à gauche de l'aide dans la barre de titre pour ouvrir un clavier standard 104 touches. « Masquer le clavier » le ferme.
+- Le clavier s'ancre par défaut en bas de la fenêtre. Si la zone de travail de l'écran est trop basse, il devient un panneau flottant déplaçable.
+- Les touches virtuelles s'écrivent uniquement dans le champ de mappage en cours d'enregistrement. Elles ne sont pas envoyées au système et ne déclenchent pas les mappages enregistrés.
+- Activez d'abord un champ d'enregistrement d'entrée ou de sortie. Un clic sur une touche virtuelle hors enregistrement demande d'activer d'abord la saisie.
+- « Valider » au-dessus du pavé numérique n'est disponible qu'après un clic sur une touche virtuelle. Après une ou deux touches, « Valider » termine l'enregistrement. Trois touches se valident automatiquement.
+- Les touches physiques et virtuelles peuvent être mélangées dans l'ordre des appuis. Après une touche virtuelle, relâcher une touche physique ne termine pas l'enregistrement. Validez, atteignez trois touches ou cliquez hors du champ.
+- Un clic dans le vide, un changement de fenêtre, une réduction ou un masquage termine l'enregistrement : les touches virtuelles déjà choisies sont validées, sinon l'enregistrement est annulé.
 
 # Paramètres {#settings}
 

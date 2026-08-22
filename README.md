@@ -1,4 +1,4 @@
-<h1 align="center">键鼠映射工具 v1.7</h1>
+<h1 align="center">键鼠映射工具 v1.8</h1>
 
 <p align="center">一款轻量、直观、实时生效的 Windows 键盘与鼠标按键映射工具</p>
 
@@ -83,7 +83,7 @@
 
 ## 三步开始使用
 
-1. 打开 [Releases](https://github.com/fuyingde/windows-keyboard-mouse-remapper/releases/latest)，在 Assets 中下载 `KeyMouseMapper-OpenSource-v1.7.exe`
+1. 打开 [Releases](https://github.com/fuyingde/windows-keyboard-mouse-remapper/releases/latest)，在 Assets 中下载 `KeyMouseMapper-OpenSource-v1.8.exe`
 2. 运行软件，首次启动时选择界面语言，然后点击“添加映射”
 3. 依次录制原始按键和目标按键，保存并勾选该条映射
 
@@ -115,13 +115,10 @@
 
 本软件使用全局输入钩子和模拟输入，因此少数安全软件可能产生误报。请从本仓库的 Releases 下载，并对照 Release 中公布的 SHA-256；如有疑虑，也可以检查源码后自行编译。
 
-## v1.7 更新亮点
+## v1.8 更新亮点
 
-- 支持原始按键与目标按键的三键组合
-- 新增原始组合的双向前缀冲突检查
-- 多条映射可以指向同一个按键或组合
-- 新增繁体中文、韩语、德语、法语和俄语
-- 优化映射列表、设置、关于软件和使用说明
+- 修复映射按下只触发一次、不会连续输入的问题
+- 新增虚拟键盘，损坏或无法按下的按键可通过屏幕键盘录入映射
 
 完整记录见 [CHANGELOG.md](./CHANGELOG.md)
 

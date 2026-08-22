@@ -26,7 +26,17 @@ Die Tastenzuordnung wandelt eine Taste oder Tastenkombination in eine andere Tas
 - Die linke und rechte Maustaste können weder einzeln zugeordnet noch als erste Taste einer Kombination verwendet werden.
 - Wenn zuerst eine andere Taste gedrückt wurde, kann die linke oder rechte Maustaste als zweite oder dritte Taste aufgezeichnet werden.
 - Während der Aufzeichnung sind andere Zuordnungen ausgesetzt. Außerhalb des aktiven Aufnahmefelds können Sie mit der linken und rechten Maustaste weiterhin normal klicken.
-- Eine Aufzeichnung ist nur möglich, wenn die Tasten- und Mauszuordnung im Vordergrund ist. Ein Fensterwechsel, Minimieren oder Ausblenden bricht die Aufzeichnung sofort ab.
+- Eine Aufzeichnung ist nur möglich, wenn die Tasten- und Mauszuordnung im Vordergrund ist. Fensterwechsel, Minimieren oder Ausblenden beendet die Aufzeichnung: bereits angeklickte Bildschirmtasten werden übernommen, andernfalls wird abgebrochen.
+
+## Bildschirmtastatur {#mapping-virtual}
+
+- Über „Bildschirmtastatur“ links neben der Hilfe in der Titelleiste öffnen Sie eine Standard-Tastatur mit 104 Tasten. „Tastatur ausblenden“ schließt sie wieder.
+- Die Tastatur dockt standardmäßig am unteren Fensterrand an. Ist der sichtbare Arbeitsbereich zu niedrig, wird sie zu einem verschiebbaren schwebenden Feld.
+- Bildschirmtasten werden nur in das gerade aufgenommene Zuordnungsfeld geschrieben. Sie werden nicht an das System gesendet und lösen keine gespeicherten Zuordnungen aus.
+- Aktivieren Sie zuerst das Aufnahmefeld für Eingabe oder Ausgabe. Ein Klick auf eine Bildschirmtaste ohne aktive Aufnahme fordert Sie auf, zuerst die Zuordnungsaufnahme zu starten.
+- „Übernehmen“ über dem Ziffernblock ist erst nach einem Klick auf eine Bildschirmtaste verfügbar. Nach einer oder zwei Tasten beendet „Übernehmen“ die Aufnahme. Bei drei Tasten wird automatisch abgeschlossen.
+- Physische Tasten und Bildschirmtasten können in der Reihenfolge der Betätigung gemischt werden. Nach einer Bildschirmtaste beendet das Loslassen einer physischen Taste die Aufnahme nicht. Übernehmen, drei Tasten oder ein Klick außerhalb des Aufnahmefelds sind erforderlich.
+- Ein Klick auf eine leere Stelle, Fensterwechsel, Minimieren oder Ausblenden beendet die Aufnahme: bereits angeklickte Bildschirmtasten werden übernommen, andernfalls wird abgebrochen.
 
 # Einstellungen {#settings}
 

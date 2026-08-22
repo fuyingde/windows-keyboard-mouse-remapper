@@ -17,5 +17,6 @@
   "message.mappingEnableFailed": "Die Taste „{key}“ konnte nicht aktiviert werden.",
   "message.mappingSourceEmpty": "Die Eingabetaste darf nicht leer sein.",
   "message.wheelSourceLast": "Eine Mausradrichtung hat keinen gehaltenen Zustand und kann nur die letzte Eingabetaste sein.",
-  "message.comboDuplicateKey": "Eine Taste darf in derselben Kombination nicht doppelt vorkommen."
+  "message.comboDuplicateKey": "Eine Taste darf in derselben Kombination nicht doppelt vorkommen.",
+  "message.virtualKeyboardNeedCapture": "Bitte zuerst die Aufnahme aktivieren"
 }

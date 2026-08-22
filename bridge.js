@@ -1,5 +1,5 @@
 (() => {
-  const APP_VERSION = '1.7';
+  const APP_VERSION = '1.8';
   const AUTHOR_URL = 'https://www.imtr.cn/keymousetools';
   const REPOSITORY_URL = 'https://github.com/fuyingde/windows-keyboard-mouse-remapper';
   const $ = selector => document.querySelector(selector);
@@ -34,6 +34,9 @@
   let statusTimer = null;
   let activeHelpId = '';
   const expandedHelpNodes = new Set();
+  let virtualKeyboardOpen = false;
+  let virtualKeyboardMode = 'docked';
+  let vkPointerInside = false;
 
   function readEmbeddedJson(id, fallback) {
     try {
@@ -85,12 +88,12 @@
   extraStyle.textContent = `
     .titlebar{position:relative;z-index:1100}
     .global-disabled-overlay{position:absolute;z-index:900;left:0;right:0;top:42px;bottom:0;display:none;align-items:center;justify-content:center;padding:36px;background:rgba(0,0,0,.70);-webkit-app-region:no-drag}.global-disabled-overlay.show{display:flex}.global-disabled-message{max-width:620px;color:#FFF;font-size:17px;font-weight:650;line-height:1.7;text-align:center;white-space:pre-line;text-shadow:0 1px 3px rgba(0,0,0,.35)}
-    body.app-booting .app{visibility:hidden}.language-screen{position:absolute;z-index:900;left:0;right:0;top:42px;bottom:0;display:none;padding:28px 34px;background:#FFF;overflow-y:auto;-webkit-app-region:no-drag}.language-grid{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:20px 24px}.language-choice{height:50px;padding:0 10px;border:1px solid #DDE4ED;border-radius:9px;background:#FFF;color:#34445B;font-size:13px;cursor:pointer}.language-choice:hover{border-color:#8DBDFF;background:#F5F9FF;color:#1769E8}.language-choice:active{transform:translateY(1px)}body.language-selection .language-screen{display:block}body.language-selection .title-text,body.language-selection .global-input-control,body.language-selection .win-btn.topmost,body.language-selection .win-btn.text-action{display:none!important}
+    body.app-booting .app{visibility:hidden}.language-screen{position:absolute;z-index:900;left:0;right:0;top:42px;bottom:0;display:none;padding:28px 34px;background:#FFF;overflow-y:auto;-webkit-app-region:no-drag}.language-grid{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:20px 24px}.language-choice{height:50px;padding:0 10px;border:1px solid #DDE4ED;border-radius:9px;background:#FFF;color:#34445B;font-size:13px;cursor:pointer}.language-choice:hover{border-color:#8DBDFF;background:#F5F9FF;color:#1769E8}.language-choice:active{transform:translateY(1px)}body.language-selection .language-screen{display:block}body.language-selection .title-text,body.language-selection .global-input-control,body.language-selection .win-btn.topmost,body.language-selection .win-btn.text-action{display:none!important}body.language-selection .virtual-keyboard{display:none!important}
     .settings-backdrop,.about-backdrop,.help-backdrop{position:fixed;inset:0;z-index:1200;display:none;align-items:center;justify-content:center;background:rgba(25,36,55,.28);backdrop-filter:blur(2px);-webkit-app-region:no-drag}.settings-backdrop.show,.about-backdrop.show,.help-backdrop.show{display:flex}
     .settings-dialog{display:flex;flex-direction:column;width:780px;max-height:520px;padding:22px;border:1px solid #E1E7F0;border-radius:17px;background:#FFF;box-shadow:0 20px 55px rgba(31,45,70,.22);color:#1F2D43}.settings-head,.about-head,.help-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:17px}.settings-title,.about-title,.help-title{font-size:18px;font-weight:700}.settings-close,.about-close,.help-close{width:30px;height:30px;border:0;border-radius:8px;background:transparent;color:#6E7B8D;font-size:21px;cursor:pointer}.settings-close:hover,.about-close:hover,.help-close:hover{background:#F0F3F7;color:#27364C}
     .settings-list{min-height:0;display:grid;gap:9px;overflow-y:auto;padding-right:4px}.settings-row{display:flex;align-items:center;justify-content:space-between;min-height:62px;padding:0 15px;border:1px solid #E5EAF2;border-radius:12px;background:#FAFBFD}.settings-copy{min-width:0}.settings-name{margin-bottom:4px;font-size:14px;font-weight:650;color:#24334A}.settings-desc{color:#8792A3;font-size:11.5px;line-height:1.4;white-space:nowrap}.language-select{flex:0 0 auto;width:150px;height:32px;margin-left:18px;padding:0 8px;border:1px solid #DCE3EC;border-radius:7px;background:#FFF;color:#526076;font-size:11.5px;outline:none}.settings-switch{position:relative;flex:0 0 auto;width:44px;height:24px;margin-left:18px;padding:0;border:0;border-radius:999px;background:#C8D0DC;cursor:pointer}.settings-switch:after{content:'';position:absolute;left:3px;top:3px;width:18px;height:18px;border-radius:50%;background:#FFF;box-shadow:0 1px 4px rgba(24,37,59,.25);transition:transform .18s}.settings-switch.on{background:#2D73F5}.settings-switch.on:after{transform:translateX(20px)}
     .mapping-item .auto-check-wrap{cursor:pointer}.mapping-item.editing .auto-check-wrap,.mapping-item.unsaved .auto-check-wrap{cursor:default;opacity:.5}.mapping-item.editing .auto-check,.mapping-item.unsaved .auto-check{pointer-events:none}
-    .win-btn.text-action{width:auto;min-width:54px;padding:0 10px;display:flex;align-items:center;justify-content:center;color:#59677B;font-size:11px;white-space:nowrap;cursor:pointer}.win-btn.text-action.help{min-width:70px}
+    .win-btn.text-action{width:auto;min-width:54px;padding:0 10px;display:flex;align-items:center;justify-content:center;color:#59677B;font-size:11px;white-space:nowrap;cursor:pointer}.win-btn.text-action.help{min-width:70px}.win-btn.text-action.vk-toggle{min-width:70px}
     .about-dialog{display:flex;flex-direction:column;width:780px;height:440px;padding:22px;border:1px solid #E1E7F0;border-radius:17px;background:#FFF;box-shadow:0 20px 55px rgba(31,45,70,.22);color:#1F2D43}.about-head{flex:0 0 auto;margin-bottom:14px}.about-body{min-height:0;overflow-y:auto;padding-right:7px;user-select:text}.about-info{display:grid;gap:7px;margin-bottom:14px;padding:13px 15px;border:1px solid #E5EAF2;border-radius:12px;background:#FAFBFD;font-size:13px;color:#43516A}.about-product-line{color:#24334A;font-size:14px;font-weight:700}.about-summary{margin-top:5px;padding-top:10px;border-top:1px solid #E5EAF2;color:#5F6D82;font-size:12.5px;line-height:1.7}.about-summary p{margin:0}.about-section-title{margin:0 0 9px;font-size:14px;font-weight:700;color:#24334A}.version-card{margin-bottom:10px;padding:12px 14px;border:1px solid #DFE6F0;border-radius:12px;background:#FFF}.version-title{margin-bottom:7px;color:#2D73F5;font-size:13px;font-weight:700}.version-card ul{margin:0;padding-left:18px;color:#5F6D82;font-size:12px;line-height:1.65}.about-link{width:max-content;padding:0;border:0;background:transparent;color:#1769E8;font:inherit;text-decoration:underline;text-underline-offset:2px;cursor:pointer}.about-link:hover{color:#0F58C7}
     .help-dialog{display:flex;flex-direction:column;width:780px;height:470px;padding:20px;border:1px solid #E1E7F0;border-radius:17px;background:#FFF;box-shadow:0 20px 55px rgba(31,45,70,.22);color:#1F2D43}.help-head{flex:0 0 auto;margin-bottom:13px}.help-layout{min-height:0;flex:1;display:grid;grid-template-columns:205px minmax(0,1fr);border:1px solid #E4E9F0;border-radius:12px;overflow:hidden}.help-nav{min-width:0;min-height:0;overflow-y:auto;padding:9px 8px;background:#F8FAFD;border-right:1px solid #E5EAF1}.help-nav-button{width:100%;min-height:32px;display:flex;align-items:center;gap:7px;padding:5px 9px;border:0;border-radius:7px;background:transparent;color:#536174;font-size:12px;line-height:1.35;text-align:left;cursor:pointer}.help-nav-button:hover{background:#EEF3F9;color:#2D5FAD}.help-nav-button.active{background:#E8F1FF;color:#1769E8;font-weight:400}.help-nav-button.child{padding-left:27px}.help-nav-arrow{width:9px;height:9px;flex:0 0 auto;fill:none;stroke:currentColor;stroke-width:1.8;transition:transform .15s}.help-nav-button.expanded .help-nav-arrow{transform:rotate(90deg)}.help-nav-children{display:none}.help-nav-children.expanded{display:block}.help-content{min-width:0;min-height:0;overflow-y:auto;padding:22px 25px 26px;user-select:text}.help-content h2{margin:0 0 13px;color:#23334A;font-size:19px}.help-content h3{margin:18px 0 8px;color:#34445B;font-size:13px}.help-content p,.help-content li{color:#5C6A7E;font-size:12.5px;line-height:1.75}.help-content p{margin:0 0 10px}.help-content ol,.help-content ul{margin:0;padding-left:21px}.help-content li+li{margin-top:4px}.help-note{margin-top:17px;padding:12px 14px;border:1px solid #DCE9FC;border-radius:9px;background:#F5F9FF}.help-note-title{margin-bottom:5px;color:#2767C7;font-size:12px;font-weight:700}.help-note p{margin:0}
   `;
@@ -128,8 +131,10 @@
   const helpButton = createWindowButton('help', t('button.help'));
   const aboutButton = createWindowButton('about', t('button.about'));
   const settingsButton = createWindowButton('settings', t('button.settings'));
+  const vkButton = createWindowButton('vk-toggle', t('button.virtualKeyboard'));
+  vkButton.setAttribute('aria-pressed', 'false');
   const firstNativeWindowButton = windowActions.firstElementChild;
-  for (const button of [helpButton, aboutButton, settingsButton]) windowActions.insertBefore(button, firstNativeWindowButton);
+  for (const button of [vkButton, helpButton, aboutButton, settingsButton]) windowActions.insertBefore(button, firstNativeWindowButton);
 
   function renderLanguageSelector() {
     languageScreen.querySelector('.language-grid').innerHTML = (localesData.order || []).filter(locale => localesData.packs?.[locale])
@@ -147,7 +152,7 @@
     topMostButton.setAttribute('aria-label', t('window.topMost'));
     $('.win-btn.minimize').setAttribute('aria-label', t('window.minimize'));
     $('.win-btn.close').setAttribute('aria-label', t('window.close'));
-    for (const [button, key] of [[settingsButton, 'button.settings'], [aboutButton, 'button.about'], [helpButton, 'button.help']]) {
+    for (const [button, key] of [[vkButton, virtualKeyboardOpen ? 'button.collapseKeyboard' : 'button.virtualKeyboard'], [settingsButton, 'button.settings'], [aboutButton, 'button.about'], [helpButton, 'button.help']]) {
       button.setAttribute('aria-label', t(key));
       button.querySelector('span').textContent = t(key);
     }
@@ -162,6 +167,7 @@
     $('.panel').setAttribute('aria-label', t('panel.mapping'));
     addMapping.textContent = t('mapping.add');
     addWarning.textContent = t('mapping.pendingWarning');
+    updateVkConfirmButton();
     $('#confirmCancel').textContent = t('button.cancel');
     $('#confirmDelete').textContent = t('button.delete');
     renderChangelog();
@@ -237,6 +243,148 @@
     const desired = findHelpPath(helpData.sections, 'mapping-basic') ? 'mapping-basic' : firstHelpLeaf(helpData.sections)?.id;
     renderHelpContent(desired);
     helpBackdrop.classList.add('show');
+  }
+
+  function vkKey(code, label, cls = '') {
+    return `<button type="button" class="vk-key${cls ? ` ${cls}` : ''}" data-vk="${escapeHtml(code)}" title="${escapeHtml(code)}">${escapeHtml(label)}</button>`;
+  }
+
+  function vkGap(cls = '') {
+    return `<span class="vk-gap${cls ? ` ${cls}` : ''}"></span>`;
+  }
+
+  function vkRow(content, cls = '') {
+    return `<div class="vk-row${cls ? ` ${cls}` : ''}">${content}</div>`;
+  }
+
+  function renderVirtualKeyboardBoard() {
+    const vkBoard = $('#vkBoard');
+    const numberRow = ['`', '1', '2', '3', '4', '5', '6', '7', '8', '9', '0', '-', '='];
+    const tabRow = ['q', 'w', 'e', 'r', 't', 'y', 'u', 'i', 'o', 'p', '[', ']'];
+    const capsRow = ['a', 's', 'd', 'f', 'g', 'h', 'j', 'k', 'l', ';', "'"];
+    const shiftRow = ['z', 'x', 'c', 'v', 'b', 'n', 'm', ',', '.', '/'];
+    const main = [
+      vkRow([vkKey('Escape', 'Esc'), vkGap(), vkKey('F1', 'F1'), vkKey('F2', 'F2'), vkKey('F3', 'F3'), vkKey('F4', 'F4'), vkGap(), vkKey('F5', 'F5'), vkKey('F6', 'F6'), vkKey('F7', 'F7'), vkKey('F8', 'F8'), vkGap(), vkKey('F9', 'F9'), vkKey('F10', 'F10'), vkKey('F11', 'F11'), vkKey('F12', 'F12')].join(''), 'fn'),
+      '<div class="vk-fn-gap"></div>',
+      vkRow(numberRow.map(key => vkKey(key, key)).join('') + vkKey('Backspace', 'Bksp', 'wide w2')),
+      vkRow(vkKey('Tab', 'Tab', 'wide w15') + tabRow.map(key => vkKey(key, key.length === 1 ? key.toUpperCase() : key)).join('') + vkKey('\\', '\\', 'wide w15')),
+      vkRow(vkKey('CapsLock', 'Caps', 'wide w175') + capsRow.map(key => vkKey(key, key.length === 1 ? key.toUpperCase() : key)).join('') + vkKey('Enter', 'Enter', 'wide w225')),
+      vkRow(vkKey('LShift', 'Shift', 'wide w225') + shiftRow.map(key => vkKey(key, key.length === 1 ? key.toUpperCase() : key)).join('') + vkKey('RShift', 'Shift', 'wide w275')),
+      vkRow(vkKey('LControl', 'Ctrl', 'wide w125') + vkKey('LWin', 'Win', 'wide w125') + vkKey('LAlt', 'Alt', 'wide w125') + vkKey('Space', 'Space', 'wide w625') + vkKey('RAlt', 'Alt', 'wide w125') + vkKey('RWin', 'Win', 'wide w125') + vkKey('AppsKey', 'Menu', 'wide w125') + vkKey('RControl', 'Ctrl', 'wide w125'))
+    ].join('');
+    const nav = [
+      vkRow(vkKey('PrintScreen', 'PrtSc') + vkKey('ScrollLock', 'ScrLk') + vkKey('Pause', 'Pause'), 'fn'),
+      '<div class="vk-fn-gap"></div>',
+      vkRow(vkKey('Insert', 'Ins') + vkKey('Home', 'Home') + vkKey('PgUp', 'PgUp')),
+      vkRow(vkKey('Delete', 'Del') + vkKey('End', 'End') + vkKey('PgDn', 'PgDn')),
+      vkRow('<span class="vk-empty"></span>'),
+      vkRow('<span class="vk-empty"></span>' + vkKey('Up', '↑') + '<span class="vk-empty"></span>'),
+      vkRow(vkKey('Left', '←') + vkKey('Down', '↓') + vkKey('Right', '→'))
+    ].join('');
+    const num = [
+      `<div class="vk-confirm-slot"><button type="button" class="vk-confirm" id="vkConfirm" disabled>${escapeHtml(t('button.confirmCapture'))}</button></div>`,
+      vkRow(vkKey('NumLock', 'Num') + vkKey('NumpadDiv', '/') + vkKey('NumpadMult', '*') + vkKey('NumpadSub', '-')),
+      `<div class="vk-side"><div class="vk-side-keys">${vkRow(vkKey('Numpad7', '7') + vkKey('Numpad8', '8') + vkKey('Numpad9', '9'))}${vkRow(vkKey('Numpad4', '4') + vkKey('Numpad5', '5') + vkKey('Numpad6', '6'))}</div>${vkKey('NumpadAdd', '+', 'tall2')}</div>`,
+      `<div class="vk-side"><div class="vk-side-keys">${vkRow(vkKey('Numpad1', '1') + vkKey('Numpad2', '2') + vkKey('Numpad3', '3'))}${vkRow(vkKey('Numpad0', '0', 'w2') + vkKey('NumpadDot', '.'))}</div>${vkKey('NumpadEnter', 'Ent', 'tall2')}</div>`
+    ].join('');
+    vkBoard.innerHTML = `<div class="vk-main">${main}</div><div class="vk-nav">${nav}</div><div class="vk-num">${num}</div>`;
+    lockKeyboardFocus($('#virtualKeyboard'));
+    updateVkConfirmButton();
+  }
+
+  function updateVkConfirmButton() {
+    const button = $('#vkConfirm');
+    if (!button) return;
+    button.textContent = t('button.confirmCapture');
+    button.disabled = !(recording?.type === 'mapping' && recording.virtualUsed);
+  }
+
+  function updateVirtualKeyboardButton() {
+    const key = virtualKeyboardOpen ? 'button.collapseKeyboard' : 'button.virtualKeyboard';
+    vkButton.setAttribute('aria-label', t(key));
+    vkButton.setAttribute('aria-pressed', virtualKeyboardOpen ? 'true' : 'false');
+    vkButton.querySelector('span').textContent = t(key);
+  }
+
+  function applyVirtualKeyboardMode(mode) {
+    virtualKeyboardMode = mode;
+    const panel = $('#virtualKeyboard');
+    panel.classList.toggle('floating', mode === 'floating');
+    if (mode !== 'floating') {
+      panel.style.left = '';
+      panel.style.top = '';
+      panel.style.right = '';
+      panel.style.bottom = '';
+      panel.style.width = '';
+    }
+  }
+
+  async function setVirtualKeyboardOpen(open) {
+    const panel = $('#virtualKeyboard');
+    if (!open) {
+      virtualKeyboardOpen = false;
+      panel.classList.remove('open');
+      panel.setAttribute('aria-hidden', 'true');
+      applyVirtualKeyboardMode('docked');
+      updateVirtualKeyboardButton();
+      try { await callAhk('SetVirtualKeyboardVisible', false); } catch { /* preview-only resize */ }
+      return;
+    }
+    if (!$('#vkBoard').childElementCount) renderVirtualKeyboardBoard();
+    panel.classList.add('open');
+    applyVirtualKeyboardMode('docked');
+    panel.setAttribute('aria-hidden', 'false');
+    const height = panel.offsetHeight;
+    let mode = 'docked';
+    try {
+      const result = parseResult(await callAhk('SetVirtualKeyboardVisible', true, height));
+      if (result?.ok && result.mode === 'floating') mode = 'floating';
+    } catch {
+      mode = 'floating';
+    }
+    virtualKeyboardOpen = true;
+    applyVirtualKeyboardMode(mode);
+    updateVirtualKeyboardButton();
+  }
+
+  function bindVirtualKeyboardDrag() {
+    const panel = $('#virtualKeyboard');
+    const handle = $('#vkHandle');
+    let dragging = false;
+    let startX = 0;
+    let startY = 0;
+    let origLeft = 0;
+    let origTop = 0;
+    handle.addEventListener('pointerdown', event => {
+      if (virtualKeyboardMode !== 'floating') return;
+      dragging = true;
+      handle.setPointerCapture(event.pointerId);
+      const rect = panel.getBoundingClientRect();
+      const parent = $('.app').getBoundingClientRect();
+      startX = event.clientX;
+      startY = event.clientY;
+      origLeft = rect.left - parent.left;
+      origTop = rect.top - parent.top;
+      panel.style.right = 'auto';
+      panel.style.bottom = 'auto';
+      panel.style.width = `${rect.width}px`;
+      panel.style.left = `${origLeft}px`;
+      panel.style.top = `${origTop}px`;
+    });
+    handle.addEventListener('pointermove', event => {
+      if (!dragging) return;
+      const parent = $('.app').getBoundingClientRect();
+      let left = origLeft + (event.clientX - startX);
+      let top = origTop + (event.clientY - startY);
+      const maxLeft = Math.max(0, parent.width - panel.offsetWidth);
+      const maxTop = Math.max(42, parent.height - panel.offsetHeight);
+      left = Math.min(Math.max(0, left), maxLeft);
+      top = Math.min(Math.max(42, top), maxTop);
+      panel.style.left = `${left}px`;
+      panel.style.top = `${top}px`;
+    });
+    handle.addEventListener('pointerup', () => { dragging = false; });
+    handle.addEventListener('pointercancel', () => { dragging = false; });
   }
 
   async function callAhk(name, ...args) { return await ahk.global[name](...args); }
@@ -351,10 +499,42 @@
   }
 
   async function beginMappingCapture(item, field) {
-    recording = { type: 'mapping', id: item.id, field };
+    recording = {
+      type: 'mapping', id: item.id, field, virtualUsed: false,
+      previous: { from: item.from, fromKey: item.fromKey, to: item.to, toKey: item.toKey }
+    };
     mappingPointerInside = true;
     renderMappings();
+    updateVkConfirmButton();
     await callAhk('BeginCapture', item.id, field, true);
+  }
+
+  function restoreCapturePrevious(rec) {
+    const item = mappings.find(row => row.id === rec?.id);
+    if (!item || !rec?.previous) return;
+    item.from = rec.previous.from;
+    item.fromKey = rec.previous.fromKey;
+    item.to = rec.previous.to;
+    item.toKey = rec.previous.toKey;
+  }
+
+  async function finishMappingCaptureFromUi() {
+    if (recording?.type !== 'mapping') return;
+    await callAhk('FinishCaptureOrCancel');
+  }
+
+  async function handleVirtualKeyClick(button) {
+    if (recording?.type !== 'mapping') {
+      showStatus(t('message.virtualKeyboardNeedCapture'));
+      return;
+    }
+    const result = parseResult(await callAhk('AppendVirtualCaptureKey', button.dataset.vk || ''));
+    if (!result.ok) {
+      if (result.message) showStatus(result.message);
+      return;
+    }
+    recording.virtualUsed = true;
+    updateVkConfirmButton();
   }
 
   function isActiveMappingRecordTarget(target) {
@@ -365,6 +545,11 @@
   }
 
   function updateMappingPointerInside(target) {
+    const vkInside = Boolean(target instanceof Element && target.closest('#virtualKeyboard'));
+    if (vkInside !== vkPointerInside) {
+      vkPointerInside = vkInside;
+      callAhk('SetVirtualKeyboardPointerInside', vkInside).catch(() => {});
+    }
     if (recording?.type !== 'mapping') { mappingPointerInside = false; return; }
     const inside = isActiveMappingRecordTarget(target);
     if (inside === mappingPointerInside) return;
@@ -423,9 +608,20 @@
       const target = event.target;
       const languageChoice = target.closest('[data-language-choice]');
       if (languageChoice) { await changeLanguage(languageChoice.dataset.languageChoice); return; }
+      const virtualKey = target.closest('.vk-key');
+      if (virtualKey) {
+        await handleVirtualKeyClick(virtualKey);
+        return;
+      }
+      if (target.closest('.vk-confirm')) {
+        if (recording?.type === 'mapping' && recording.virtualUsed) await callAhk('ConfirmVirtualCapture');
+        else showStatus(t('message.virtualKeyboardNeedCapture'));
+        return;
+      }
       const clearRecorded = target.closest('[data-clear-record="mapping"]');
       if (clearRecorded) { await clearRecordedField(clearRecorded); return; }
-      if (recording?.type === 'mapping' && !isActiveMappingRecordTarget(target)) await cancelMappingCaptureFromUi();
+      if (recording?.type === 'mapping' && !isActiveMappingRecordTarget(target) && !target.closest('.vk-handle'))
+        await finishMappingCaptureFromUi();
       if (target.closest('#globalInputSwitch')) {
         const result = parseResult(await callAhk('SetInputEnabled', state.inputEnabled === false));
         if (!result.ok) return showStatus(result.message);
@@ -433,6 +629,10 @@
         recording = null;
         renderGlobalInputSwitch();
         renderMappings();
+        return;
+      }
+      if (target.closest('.win-btn.vk-toggle')) {
+        await setVirtualKeyboardOpen(!virtualKeyboardOpen);
         return;
       }
       if (target.closest('.win-btn.close')) { await callAhk('CloseApp'); return; }
@@ -577,16 +777,25 @@
       item[`${field}Key`] = keyName;
       recording = null;
       mappingPointerInside = false;
+      updateVkConfirmButton();
       renderMappings();
     },
-    captureCancelled() { recording = null; mappingPointerInside = false; renderMappings(); },
+    captureCancelled() {
+      const rec = recording;
+      recording = null;
+      mappingPointerInside = false;
+      restoreCapturePrevious(rec);
+      updateVkConfirmButton();
+      renderMappings();
+    },
     captureWarning(message) { showStatus(message); },
-    backendError(message) { recording = null; showStatus(message); }
+    backendError(message) { recording = null; updateVkConfirmButton(); showStatus(message); }
   };
 
   renderLanguageSelector();
   document.body.classList.toggle('language-selection', !bootstrap.languageSelected);
   renderLocalizedShell();
+  bindVirtualKeyboardDrag();
   lockKeyboardFocus();
   refreshState().catch(error => showStatus(error.message || String(error))).finally(() => document.body.classList.remove('app-booting'));
 })();

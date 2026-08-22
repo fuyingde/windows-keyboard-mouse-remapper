@@ -17,5 +17,6 @@
   "message.mappingEnableFailed": "无法启用按键“{key}”。",
   "message.mappingSourceEmpty": "原始按键不能为空。",
   "message.wheelSourceLast": "滚轮没有持续按住状态，只能位于原始组合键的最后一位。",
-  "message.comboDuplicateKey": "同一个组合键中不能重复使用按键。"
+  "message.comboDuplicateKey": "同一个组合键中不能重复使用按键。",
+  "message.virtualKeyboardNeedCapture": "请先激活映射录入"
 }

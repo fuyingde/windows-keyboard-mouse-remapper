@@ -17,5 +17,6 @@
   "message.mappingEnableFailed": "Не удалось активировать клавишу «{key}».",
   "message.mappingSourceEmpty": "Исходная клавиша не может быть пустой.",
   "message.wheelSourceLast": "Направление колеса не имеет удерживаемого состояния и может быть только последней исходной клавишей.",
-  "message.comboDuplicateKey": "Одна клавиша не может повторяться в одной комбинации."
+  "message.comboDuplicateKey": "Одна клавиша не может повторяться в одной комбинации.",
+  "message.virtualKeyboardNeedCapture": "Сначала активируйте запись"
 }

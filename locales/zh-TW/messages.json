@@ -17,5 +17,6 @@
   "message.mappingEnableFailed": "無法啟用按鍵「{key}」。",
   "message.mappingSourceEmpty": "原始按鍵不能為空。",
   "message.wheelSourceLast": "滾輪方向沒有按住狀態，只能作為原始組合中的最後一個按鍵。",
-  "message.comboDuplicateKey": "同一組合中不能重複出現相同按鍵。"
+  "message.comboDuplicateKey": "同一組合中不能重複出現相同按鍵。",
+  "message.virtualKeyboardNeedCapture": "請先啟動映射錄入"
 }

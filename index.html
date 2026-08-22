@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>键鼠映射工具 V1.7 （开源版）</title>
+  <title>键鼠映射工具 V1.8</title>
 <style>
   :root {
     --app-bg: #F4F7FB;
@@ -25,8 +25,11 @@
 
   html, body {
     margin: 0;
+    width: 100%;
+    height: 100%;
     min-width: 1020px;
     min-height: 600px;
+    overflow: hidden;
     font-family: "Microsoft YaHei", "PingFang SC", "Segoe UI", Arial, sans-serif;
     background: #EAF0F7;
     color: var(--text-normal);
@@ -34,9 +37,7 @@
   }
 
   body {
-    display: flex;
-    align-items: flex-start;
-    justify-content: flex-start;
+    display: block;
   }
 
   button, input { font: inherit; }
@@ -44,8 +45,10 @@
 
   .app {
     position: relative;
-    width: 1020px;
-    height: 600px;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
     overflow: hidden;
     background: var(--app-bg);
     border: 1px solid #DDE4ED;
@@ -55,6 +58,7 @@
   .app, .app * { user-select: none; }
 
   .titlebar {
+    flex: 0 0 42px;
     height: 42px;
     display: flex;
     align-items: center;
@@ -90,6 +94,7 @@
     font-weight: 600;
     color: var(--text-main);
     letter-spacing: .1px;
+    white-space: nowrap;
   }
 
   .global-input-control {
@@ -163,7 +168,8 @@
   .win-btn.topmost.active svg { fill: rgba(23, 105, 232, .14); stroke-width: 1.8; }
 
   .content {
-    height: 558px;
+    flex: 1;
+    height: auto;
     min-height: 0;
     display: grid;
     grid-template-columns: 286px minmax(0, 1fr);
@@ -409,7 +415,7 @@
   .emergency-choice input { width: 15px; height: 15px; margin: 0; accent-color: #1677FF; }
 
   .main {
-    height: 558px;
+    height: 100%;
     min-width: 0;
     min-height: 0;
     padding: 10px;
@@ -746,6 +752,116 @@
   }
   .confirm-btn.danger:hover { background: #D93E43; }
 
+  .virtual-keyboard {
+    --vk-u: 40px;
+    --vk-h: 32px;
+    --vk-fn-h: 32px;
+    --vk-g: 3px;
+    --vk-fn-gap: 12px;
+    display: none;
+    flex: 0 0 auto;
+    background: #F3F6FA;
+    border-top: 1px solid #DDE4ED;
+    -webkit-app-region: no-drag;
+  }
+  .virtual-keyboard.open { display: block; }
+  .virtual-keyboard.floating {
+    position: absolute;
+    z-index: 1050;
+    left: 8px;
+    right: 8px;
+    bottom: 8px;
+    width: auto;
+    border: 1px solid #D5DEEA;
+    border-radius: 12px;
+    box-shadow: 0 16px 40px rgba(31, 45, 70, .22);
+  }
+  .vk-handle {
+    display: none;
+    height: 22px;
+    align-items: center;
+    justify-content: center;
+    cursor: move;
+    color: #8A96A8;
+    font-size: 11px;
+  }
+  .virtual-keyboard.floating .vk-handle { display: flex; }
+  .vk-handle::before {
+    content: '';
+    width: 42px;
+    height: 4px;
+    border-radius: 99px;
+    background: #C5CDD8;
+  }
+  .vk-board {
+    display: flex;
+    justify-content: center;
+    gap: 8px;
+    padding: 8px 12px 10px;
+  }
+  .vk-main, .vk-nav, .vk-num { display: flex; flex-direction: column; }
+  .vk-fn-gap { height: var(--vk-fn-gap); flex: 0 0 var(--vk-fn-gap); }
+  .vk-row { display: flex; align-items: stretch; gap: var(--vk-g); height: var(--vk-h); }
+  .vk-row.fn { height: var(--vk-fn-h); }
+  .vk-row + .vk-row, .vk-row + .vk-side, .vk-side + .vk-side { margin-top: var(--vk-g); }
+  .vk-key {
+    flex: 0 0 var(--vk-u);
+    width: var(--vk-u);
+    height: 100%;
+    padding: 0 2px;
+    border: 1px solid #D5DEEA;
+    border-radius: 5px;
+    background: linear-gradient(#FFFFFF, #F6F8FC);
+    color: #314257;
+    font-size: 11px;
+    line-height: 1.1;
+    box-shadow: 0 1px 0 #E7ECF3;
+    cursor: default;
+  }
+  .vk-key:hover { border-color: #8DBDFF; background: #F7FAFF; }
+  .vk-row.fn .vk-key { font-size: 10px; }
+  .vk-key.wide { font-size: 10px; }
+  .vk-key.w125 { flex-basis: calc(var(--vk-u) * 1.25 + var(--vk-g) * 0.25); width: calc(var(--vk-u) * 1.25 + var(--vk-g) * 0.25); }
+  .vk-key.w15 { flex-basis: calc(var(--vk-u) * 1.5 + var(--vk-g) * 0.5); width: calc(var(--vk-u) * 1.5 + var(--vk-g) * 0.5); }
+  .vk-key.w175 { flex-basis: calc(var(--vk-u) * 1.75 + var(--vk-g) * 0.75); width: calc(var(--vk-u) * 1.75 + var(--vk-g) * 0.75); }
+  .vk-key.w2 { flex-basis: calc(var(--vk-u) * 2 + var(--vk-g)); width: calc(var(--vk-u) * 2 + var(--vk-g)); }
+  .vk-key.w225 { flex-basis: calc(var(--vk-u) * 2.25 + var(--vk-g) * 1.25); width: calc(var(--vk-u) * 2.25 + var(--vk-g) * 1.25); }
+  .vk-key.w275 { flex-basis: calc(var(--vk-u) * 2.75 + var(--vk-g) * 1.75); width: calc(var(--vk-u) * 2.75 + var(--vk-g) * 1.75); }
+  .vk-key.w625 { flex-basis: calc(var(--vk-u) * 6.25 + var(--vk-g) * 5.25); width: calc(var(--vk-u) * 6.25 + var(--vk-g) * 5.25); }
+  .vk-gap { flex: 0 0 calc(var(--vk-u) * 0.5); width: calc(var(--vk-u) * 0.5); }
+  .vk-gap.sm { flex-basis: 10px; width: 10px; }
+  .vk-empty { flex: 1; height: 100%; }
+  .vk-side { display: flex; align-items: stretch; gap: var(--vk-g); height: calc(var(--vk-h) * 2 + var(--vk-g)); }
+  .vk-side-keys { display: flex; flex-direction: column; }
+  .vk-side .vk-key.tall2 { height: 100%; }
+  .vk-nav .vk-key { font-size: 9px; }
+  .vk-confirm-slot {
+    display: flex;
+    align-items: stretch;
+    height: var(--vk-h);
+  }
+  .vk-confirm-slot + .vk-row { margin-top: var(--vk-fn-gap); }
+  .vk-confirm {
+    width: 100%;
+    padding: 0 4px;
+    border: 0;
+    border-radius: 5px;
+    background: #C5CDD8;
+    color: #FFFFFF;
+    font-size: 11px;
+    font-weight: 400;
+    letter-spacing: 0;
+    box-shadow: none;
+    cursor: default;
+  }
+  .vk-confirm:disabled { color: #F3F6FA; }
+  .vk-confirm:enabled {
+    background: #1677FF;
+    cursor: pointer;
+    box-shadow: 0 4px 10px rgba(22, 119, 255, .28);
+  }
+  .vk-confirm:enabled:hover { background: #0F6DE8; }
+
   @media (max-width: 1019px), (max-height: 599px) {
     body { overflow: auto; }
   }
@@ -761,7 +877,7 @@
             <path d="M6 9h1M10 9h1M14 9h1M18 9h.1M6 12h1M10 12h1M14 12h1M18 12h.1M7 15h10" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
           </svg>
         </div>
-        <div class="title-text">键鼠映射工具 V1.7 （开源版）</div>
+        <div class="title-text">键鼠映射工具 V1.8</div>
         <div class="global-input-control"><button id="globalInputSwitch" class="global-input-switch on" type="button" role="switch" aria-label="启用或关闭按键接管" aria-checked="true"></button><span id="globalInputDisabledNote" class="global-input-disabled-note">已禁止所有的按键脚本，释放所有热键</span></div>
       </div>
       <div class="window-actions" aria-label="窗口控制">
@@ -806,6 +922,10 @@
           <div id="mappingList" class="mapping-list" aria-live="polite"></div>
         </section>
       </main>
+    </div>
+    <div id="virtualKeyboard" class="virtual-keyboard" aria-hidden="true">
+      <div class="vk-handle" id="vkHandle"></div>
+      <div class="vk-board" id="vkBoard"></div>
     </div>
 
     <div id="confirmBackdrop" class="confirm-backdrop" aria-hidden="true">

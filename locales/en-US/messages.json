@@ -17,5 +17,6 @@
   "message.mappingEnableFailed": "Unable to enable the key “{key}”.",
   "message.mappingSourceEmpty": "The source key cannot be empty.",
   "message.wheelSourceLast": "A wheel direction has no held state and can only be the last source key.",
-  "message.comboDuplicateKey": "A key cannot appear twice in the same combination."
+  "message.comboDuplicateKey": "A key cannot appear twice in the same combination.",
+  "message.virtualKeyboardNeedCapture": "Activate a mapping field first"
 }
