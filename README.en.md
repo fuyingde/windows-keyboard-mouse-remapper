@@ -41,7 +41,7 @@ Key Mouse Mapper performs remapping while it is running instead of permanently c
 
 ## Interface preview
 
-![Key Mouse Mapper in Simplified Chinese](./docs/images/app-zh-cn.png)
+![Key Mouse Mapper in English](./docs/images/app-en-us.png)
 
 <details>
 <summary>View the other six interface languages</summary>
@@ -50,8 +50,8 @@ Key Mouse Mapper performs remapping while it is running instead of permanently c
 
 <table>
   <tr>
+    <td align="center"><img src="./docs/images/app-zh-cn.png" width="480" alt="Simplified Chinese interface"><br><sub>简体中文</sub></td>
     <td align="center"><img src="./docs/images/app-zh-tw.png" width="480" alt="Traditional Chinese interface"><br><sub>繁體中文</sub></td>
-    <td align="center"><img src="./docs/images/app-en-us.png" width="480" alt="English interface"><br><sub>English</sub></td>
   </tr>
   <tr>
     <td align="center"><img src="./docs/images/app-ko-kr.png" width="480" alt="Korean interface"><br><sub>한국어</sub></td>
