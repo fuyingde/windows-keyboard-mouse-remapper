@@ -52,16 +52,16 @@
 
 <table>
   <tr>
-    <td align="center"><img src="./docs/images/app-zh-tw.png" width="480" alt="繁體中文界面"><br><sub>繁體中文</sub></td>
-    <td align="center"><img src="./docs/images/app-en-us.png" width="480" alt="English interface"><br><sub>English</sub></td>
+    <td align="center"><img src="./docs/images/app-zh-tw.png?v=1.8" width="480" alt="繁體中文界面"><br><sub>繁體中文</sub></td>
+    <td align="center"><img src="./docs/images/app-en-us.png?v=1.8" width="480" alt="English interface"><br><sub>English</sub></td>
   </tr>
   <tr>
-    <td align="center"><img src="./docs/images/app-ko-kr.png" width="480" alt="한국어 인터페이스"><br><sub>한국어</sub></td>
-    <td align="center"><img src="./docs/images/app-de-de.png" width="480" alt="Deutsche Benutzeroberfläche"><br><sub>Deutsch</sub></td>
+    <td align="center"><img src="./docs/images/app-ko-kr.png?v=1.8" width="480" alt="한국어 인터페이스"><br><sub>한국어</sub></td>
+    <td align="center"><img src="./docs/images/app-de-de.png?v=1.8" width="480" alt="Deutsche Benutzeroberfläche"><br><sub>Deutsch</sub></td>
   </tr>
   <tr>
-    <td align="center"><img src="./docs/images/app-fr-fr.png" width="480" alt="Interface française"><br><sub>Français</sub></td>
-    <td align="center"><img src="./docs/images/app-ru-ru.png" width="480" alt="Русский интерфейс"><br><sub>Русский</sub></td>
+    <td align="center"><img src="./docs/images/app-fr-fr.png?v=1.8" width="480" alt="Interface française"><br><sub>Français</sub></td>
+    <td align="center"><img src="./docs/images/app-ru-ru.png?v=1.8" width="480" alt="Русский интерфейс"><br><sub>Русский</sub></td>
   </tr>
 </table>
 
