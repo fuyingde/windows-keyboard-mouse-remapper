@@ -1,7 +1,6 @@
-<h1 align="center">键盘鼠标映射工具</h1>
-<p align="center"><strong><a href="https://github.com/fuyingde/windows-keyboard-mouse-remapper/releases/latest">前往 Releases 下载 v2.6 最新版</a></strong></p>
-
-<p align="center">开源版 v1.8 - 键鼠映射工具 </p>
+<p align="center"><strong><a href="https://github.com/fuyingde/windows-keyboard-mouse-remapper/releases/latest">前往 Releases 下载最新版</a></strong></p>
+<h1 align="center">键盘鼠标映射工具 v2.6</h1>
+<p align="center">开源版提供 v1.8 版本</p>
 <p align="center">一款轻量、直观、实时生效的 Windows 键盘与鼠标按键映射工具</p>
 
 <p align="center"><strong>Keyboard &amp; Mouse Remapper for Windows</strong></p>
