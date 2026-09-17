@@ -1,5 +1,7 @@
-<h1 align="center">键鼠映射工具 v1.8</h1>
+<h1 align="center">键盘鼠标映射工具</h1>
+<p align="center"><strong><a href="https://github.com/fuyingde/windows-keyboard-mouse-remapper/releases/latest">前往 Releases 下载 v2.6 最新版</a></strong></p>
 
+<p align="center">开源版 v1.8 - 键鼠映射工具 </p>
 <p align="center">一款轻量、直观、实时生效的 Windows 键盘与鼠标按键映射工具</p>
 
 <p align="center"><strong>Keyboard &amp; Mouse Remapper for Windows</strong></p>
@@ -18,9 +20,7 @@
 无需修改系统按键注册表，也不必重启电脑。录制原始按键和目标按键、保存并勾选，映射立即生效；退出软件后，映射立即失效并恢复原始输入。
 
 <p align="center">
-  <strong><a href="https://github.com/fuyingde/windows-keyboard-mouse-remapper/releases/latest">前往 Releases 下载最新版</a></strong>
-  · <a href="#三步开始使用">快速上手</a>
-  · <a href="https://github.com/fuyingde/windows-keyboard-mouse-remapper/issues">反馈问题</a>
+  <a href="#三步开始使用">快速上手</a>  · <a href="https://github.com/fuyingde/windows-keyboard-mouse-remapper/issues">反馈问题</a>
 </p>
 
 > 下载 Release 中的 EXE 即可直接使用，无需配置开发环境
