@@ -1,6 +1,6 @@
-<p align="center"><strong><a href="https://github.com/fuyingde/windows-keyboard-mouse-remapper/releases/latest">前往 Releases 下载最新版</a></strong></p>
-<h1 align="center">键盘鼠标映射工具 v2.6</h1>
-<p align="center">开源版提供 v1.8 版本</p>
+<p align="center"><strong><a href="https://github.com/fuyingde/windows-keyboard-mouse-remapper/releases/latest">Download the latest release</a></strong></p>
+<h1 align="center">Keyboard and Mouse Mapping Tool v2.6</h1>
+<p align="center">The open-source version offers v1.8</p>
 <p align="center">
   <a href="./README.md">简体中文</a> ·
   <a href="./README.en.md">English</a>
@@ -14,9 +14,7 @@
 
 Remap keyboard keys and mouse buttons without changing the system's keyboard-layout registry or restarting Windows. Record a source and a target, save the mapping, and enable it. Exit the app to stop every mapping and restore the original input.
 
-<p align="center">
-  <strong><a href="https://github.com/fuyingde/windows-keyboard-mouse-remapper/releases/latest">Download the latest release</a></strong>
-  · <a href="#get-started-in-three-steps">Quick start</a>
+<p align="center"><a href="#get-started-in-three-steps">Quick start</a>
   · <a href="https://github.com/fuyingde/windows-keyboard-mouse-remapper/issues">Report an issue</a>
 </p>
 
