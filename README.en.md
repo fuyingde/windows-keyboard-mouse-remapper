@@ -1,182 +1,90 @@
-<h1 align="center">Keyboard &amp; Mouse Remapper for Windows v1.8</h1>
+# KeyMouse Tools v2.6
 
-<p align="center">A lightweight, straightforward, real-time keyboard and mouse remapper for Windows</p>
+A lightweight, straightforward Windows keyboard and mouse utility with Key Mapping, Auto Press, and independent or global activation scopes.
 
-<p align="center">
-  <a href="./README.md">简体中文</a> ·
-  <a href="./README.en.md">English</a>
-</p>
+[简体中文](./README.md) · [English](./README.en.md)
 
-<p align="center">
-  <a href="https://github.com/fuyingde/windows-keyboard-mouse-remapper/releases/latest"><img src="https://img.shields.io/github/v/release/fuyingde/windows-keyboard-mouse-remapper?label=release&color=1769e8" alt="Latest release"></a>
-  <img src="https://img.shields.io/badge/Windows-10%20%7C%2011-1769e8" alt="Windows 10 and 11">
-  <a href="./LICENSE"><img src="https://img.shields.io/badge/license-GPL--2.0--only-4c8bf5" alt="GPL-2.0-only license"></a>
-</p>
+> The current release is a ready-to-run EXE. No development environment is required.
 
-Remap keyboard keys and mouse buttons without changing the system's keyboard-layout registry or restarting Windows. Record a source and a target, save the mapping, and enable it. Exit the app to stop every mapping and restore the original input.
+## Download the latest build
 
-<p align="center">
-  <strong><a href="https://github.com/fuyingde/windows-keyboard-mouse-remapper/releases/latest">Download the latest release</a></strong>
-  · <a href="#get-started-in-three-steps">Quick start</a>
-  · <a href="https://github.com/fuyingde/windows-keyboard-mouse-remapper/issues">Report an issue</a>
-</p>
+The current version is distributed as an executable only. Source code after 1.8 is not published with the repository. The same latest installer is available from both the official site and GitHub Releases:
 
-> Download the release EXE and run it directly without setting up a development environment
+- Official site: [https://www.imtr.cn/keymousetools](https://www.imtr.cn/keymousetools)
+- GitHub: [Releases](https://github.com/fuyingde/windows-keyboard-mouse-remapper/releases/latest)
 
-This tool focuses on lightweight, straightforward keyboard and mouse remapping. It does not provide scripting macros, game-controller mapping, per-application profiles, or complex automation. Configure a mapping once and use it globally. The app does not connect to the network on its own, is free to use, contains no advertising or promotional pop-ups, and stays quietly out of the way while it works.
+Download `KeyMouseTools-v2.6.exe` and run it. Choose an interface language on first launch, then start adding mappings or Auto Press tasks.
 
-## Why choose Keyboard & Mouse Remapper for Windows
+## Source availability
 
-Some remapping solutions require users to edit the registry, enter key codes manually, install a large utility suite, or restart Windows. Keyboard & Mouse Remapper for Windows is intended for users who want to complete essential keyboard and mouse remapping quickly:
+The last published source tree remains **1.8**. Later versions continue to add features, but they are currently released as EXE files only. A broader open-source plan may be considered later.
 
-- Record keys visually without memorizing key names or writing configuration files
-- Apply mappings immediately and restore original input when the app exits, without permanently changing system keys
-- Use keyboard keys, mouse buttons, wheel directions, and combinations containing up to three keys
-- Enable mappings individually or temporarily pause every mapping from the title bar
-- Keep configuration on the local computer without collecting or uploading user data
-- Inspect and build the published source code
-- Choose from seven built-in interface languages
+You can choose either option:
 
-Keyboard & Mouse Remapper for Windows performs remapping while it is running instead of permanently changing system keys through the registry. Mappings therefore stop and original input is restored when the app exits completely. To reduce daily setup, the app provides Start with Windows and a tray-icon visibility option, allowing it to start with Windows and run quietly in the background when desired.
+- Use the latest features: download the newest EXE from the official site or GitHub
+- Inspect or compile source: use the published [1.8](https://github.com/fuyingde/windows-keyboard-mouse-remapper/releases/tag/v1.8) snapshot
 
-## Interface preview
+Version 1.8 still works. It covers basic key mapping, but it does not include later additions such as the extra Auto Press activation modes, Global scope, or preset import and export.
 
-![Keyboard and Mouse Remapper for Windows in English](./docs/images/app-en-us.png)
+## What it does
 
-<details>
-<summary>View the other six interface languages</summary>
+- Map keyboard keys, mouse inputs, or combinations of up to three keys to other keys or combinations
+- Set a mapping target to “None” to temporarily block an input while the app is running
+- Create Auto Press tasks with single or double presses, intervals, repeat counts, and randomized press durations
+- Control Auto Press tasks with Unified Hotkeys, Independent Hotkeys, or Hold to Run
+- Manage mappings and Auto Press tasks with Independent or Global scope
+- Use the title-bar master switch to stop all input handling and restore normal input immediately
+- Use the virtual keyboard to record damaged or hard-to-press keys
+- Use tray operation, launch at startup with optional silent start, Always on Top, preset import and export, and Chinese or English interfaces
 
-<br>
+It is a good fit for replacing a broken or awkward key, remapping mouse side buttons, blocking accidental presses, or turning frequent combinations into easier actions. Mappings apply only while the app is running and revert as soon as you exit completely.
 
-<table>
-  <tr>
-    <td align="center"><img src="./docs/images/app-zh-cn.png" width="480" alt="Simplified Chinese interface"><br><sub>简体中文</sub></td>
-    <td align="center"><img src="./docs/images/app-zh-tw.png" width="480" alt="Traditional Chinese interface"><br><sub>繁體中文</sub></td>
-  </tr>
-  <tr>
-    <td align="center"><img src="./docs/images/app-ko-kr.png" width="480" alt="Korean interface"><br><sub>한국어</sub></td>
-    <td align="center"><img src="./docs/images/app-de-de.png" width="480" alt="German interface"><br><sub>Deutsch</sub></td>
-  </tr>
-  <tr>
-    <td align="center"><img src="./docs/images/app-fr-fr.png" width="480" alt="French interface"><br><sub>Français</sub></td>
-    <td align="center"><img src="./docs/images/app-ru-ru.png" width="480" alt="Russian interface"><br><sub>Русский</sub></td>
-  </tr>
-</table>
+## How to use
 
-</details>
+### Key Mapping
 
-## What it can do
+1. Select **Key Mapping** and choose **Add Mapping**
+2. Record the source input and mapping target in order
+3. Save the row and select its checkbox to enable it
 
-| Capability | Description |
-| --- | --- |
-| Keyboard and mouse mapping | Map a key to another key, including the middle button, side buttons, and wheel directions |
-| Up to three-key combinations | Both source and target combinations can contain one to three keys |
-| Temporary key blocking | Set the target to “None” to suppress an input while the app is running |
-| Per-mapping control | Enable mappings individually and restore original input immediately by clearing a checkbox |
-| Master pause switch | Release all held outputs and pause every mapping from the title bar |
-| Desktop integration | Start with Windows, tray background operation, single-instance activation, and always-on-top support |
-| Seven interface languages | 简体中文, 繁體中文, English, 한국어, Deutsch, Français, and Русский |
+Source inputs and targets can each contain up to three keys. Set the target to **None** and enable the row to block the source input temporarily. Clearing the checkbox restores the original input immediately.
 
-Typical uses include replacing a broken or awkward key, customizing mouse side buttons, preventing accidental input, and moving frequently used combinations to more convenient keys.
+### Auto Press
 
-## Get started in three steps
+1. Select **Auto Press** and choose **Add Auto Press**
+2. Record the key or combination to run, then set the interval, press method, and repeat count
+3. Save and select the task, then use the hotkeys for the current activation mode to start or stop it
 
-1. Open [Releases](https://github.com/fuyingde/windows-keyboard-mouse-remapper/releases/latest) and download `KeyMouseMapper-OpenSource-v1.8.exe` from Assets
-2. Run the app, choose an interface language on first launch, and select “Add Mapping”
-3. Record the source and target, save the mapping, and select its checkbox to enable it
+Auto Press supports Unified Hotkeys, Independent Hotkeys, and Hold to Run. The Force Stop key remains available for immediately stopping every Auto Press task.
 
-Clear a mapping's checkbox whenever you want to restore the original input without deleting the rule.
+### Activation scope
 
-## Combination and mouse rules
+**Independent** is the default scope. When switching features, only selected rules in the current feature run.
 
-- Source and target combinations can contain one to three keys
-- Multiple mappings may use the same target key or combination
-- Duplicate source combinations and prefix conflicts are rejected; for example, `Ctrl` and `Ctrl+C` cannot both be source mappings
-- The left and right mouse buttons cannot be mapped alone or used as the first source key
-- After another key is pressed, either mouse button can be the second or third source key
-- A wheel direction can only be the last source key
+With **Global** scope enabled, mappings and Auto Press tasks marked **Global** can run across features. The app checks known key conflicts, but complex combinations should still be tested first.
 
-## Download and requirements
+## Requirements
 
 - 64-bit Windows 10 or Windows 11
 - Microsoft Edge WebView2 Runtime, already present on most modern Windows systems
-- The release EXE does not require a development environment or administrator privileges
+- To map input inside an elevated application, run this tool as administrator too
 
-To remap input inside an application running as administrator, run this tool as administrator as well. Some software using exclusive input or anti-cheat systems may not accept simulated input; follow the rules of the software and services you use.
+## Privacy and limitations
 
-## Privacy and safety
+- The app does not connect to the network on its own and does not collect or upload user configuration
+- The Close button defaults to Minimize to tray and can be changed to Exit the app in Basic settings. Use **Exit** in the tray menu to stop the app completely when it is hidden in the tray
+- The app uses global input hooks and simulated input. Some applications using exclusive input, anti-cheat, or other restrictions may not respond
+- Follow the rules of the relevant software and services
 
-- The app does not collect or upload your mappings
-- It does not connect to the network on its own; the default browser opens only when you select the author or repository link
-- Mapping behavior does not modify the registry; a current-user startup entry is written only if you explicitly enable Start with Windows
-- Exiting the app stops all mappings and does not make permanent keyboard changes
+A small number of security products may flag global-input utilities. Download from the official site or this repository’s Releases, and treat the SHA-256 generated by the GitHub Release as the checksum.
 
-This app uses global input hooks and simulated input, so a small number of security products may report a false positive. Download builds from this repository's Releases and compare the published SHA-256, or inspect the source and build it yourself.
+## Changelog
 
-## What's new in v1.8
+See [CHANGELOG.md](./CHANGELOG.md) and [CHANGELOG.en.md](./CHANGELOG.en.md) for the complete version history.
 
-- Fixed mapped keys firing only once instead of repeating
-- Added a virtual keyboard so damaged or unpressable keys can be recorded on screen
+## Related information
 
-See [CHANGELOG.en.md](./CHANGELOG.en.md) for the complete history.
-
-## Run and build from source
-
-Running or building from source requires the appropriate Windows script runtime and compiler for the source files in this project.
-
-```powershell
-git clone https://github.com/fuyingde/windows-keyboard-mouse-remapper.git
-cd windows-keyboard-mouse-remapper
-powershell -NoProfile -ExecutionPolicy Bypass -File .\build.ps1
-```
-
-The build script validates configuration compatibility, open-source feature boundaries, every locale, Help, and the changelog before writing the EXE to `exe`.
-
-### The `img` directory and icon files
-
-`img` is reserved for application icons used during compilation; documentation screenshots belong in `docs/images`. To keep the author's original artwork private, this repository includes only `ConvertToIco.ps1` and does not include `img.ico` or `img.svg`. Before running or building from source, you must provide both files below:
-
-| Exact path | Purpose |
-| --- | --- |
-| `img/img.ico` | EXE, Windows taskbar, Alt+Tab, and tray icon |
-| `img/img.svg` | Title-bar and large interface icon, embedded into the EXE |
-
-Both files must exist at these exact paths and use these exact names, or `build.ps1` will stop. `ConvertToIco.ps1` only converts a PNG into a multi-size `img.ico` containing 16 through 256-pixel frames; it does not create `img.svg`.
-
-Use an external PNG path to keep `img` clean:
-
-```powershell
-powershell -NoProfile -ExecutionPolicy Bypass -File .\img\ConvertToIco.ps1 `
-  -InputPath "C:\path\to\icon.png" `
-  -OutputPath .\img\img.ico
-```
-
-Alternatively, temporarily place a transparent PNG at `img/img.png` and run the script without arguments. It writes `img.ico` beside the PNG. Delete the temporary `img.png` afterward and provide the matching `img.svg` separately.
-
-<details>
-<summary>Project structure</summary>
-
-```text
-KeyMouseMapper.ahk        Application entry point, window, and tray
-Core/                    Input, mapping, settings, and localization core
-index.html               Interface structure and styling
-bridge.js                Interface behavior and native-side communication
-locales/                 Language packs, Help, About, and changelog content
-img/                     Local icon assets and the PNG-to-ICO helper
-docs/images/             Interface screenshots used by the README
-Lib/WebViewToo.ahk       WebView2 wrapper
-tests/                   Configuration compatibility and feature-boundary tests
-build.ps1                Validation and build script
-```
-
-</details>
-
-## Questions and feedback
-
-Use [Issues](https://github.com/fuyingde/windows-keyboard-mouse-remapper/issues) to report a problem, ask for help, or suggest a feature. Please include your Windows version, app version, reproduction steps, and expected result whenever possible.
-
-## License
-
-This project is released under the [GNU General Public License v2.0 only](./LICENSE). See [THIRD_PARTY_NOTICES.md](./THIRD_PARTY_NOTICES.md) for third-party components and licenses.
-
-Project website: [https://www.imtr.cn/keymousetools](https://www.imtr.cn/keymousetools)
+- Product website: [https://www.imtr.cn/keymousetools](https://www.imtr.cn/keymousetools)
+- Version 1.8 source license: [GNU GPL-2.0](./LICENSE)
+- Third-party component notices: [THIRD_PARTY_NOTICES.md](./THIRD_PARTY_NOTICES.md)
+- Version 1.8 build notes: [docs/BUILD.en.md](./docs/BUILD.en.md)
