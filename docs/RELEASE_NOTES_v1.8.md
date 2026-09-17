@@ -25,11 +25,7 @@
 
 ## 安全说明
 
-本软件不收集或上传用户配置。由于软件使用全局输入钩子和模拟输入，少数安全软件可能产生误报，请以本仓库源码和下方 SHA-256 为准
-
-**SHA-256**
-
-`2018B2738CE370F3D44190063D309D013D86E05072D4D92BDF90F650DBAE3818`
+本软件不收集或上传用户配置。由于软件使用全局输入钩子和模拟输入，少数安全软件可能产生误报，请以本仓库源码为准
 
 完整功能、源码编译和使用限制请查看仓库首页
 
@@ -62,8 +58,4 @@ Run this tool as administrator when mapping input inside an application that als
 
 ### Safety
 
-The app does not collect or upload user configuration. Because it uses global input hooks and simulated input, a small number of security products may report a false positive. Verify the source code and SHA-256 below if needed
-
-**SHA-256**
-
-`2018B2738CE370F3D44190063D309D013D86E05072D4D92BDF90F650DBAE3818`
+The app does not collect or upload user configuration. Because it uses global input hooks and simulated input, a small number of security products may report a false positive. Verify the source code if needed
