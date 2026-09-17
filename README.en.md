@@ -1,7 +1,6 @@
-<h1 align="center">Keyboard &amp; Mouse Remapper for Windows v1.8</h1>
-
-<p align="center">A lightweight, straightforward, real-time keyboard and mouse remapper for Windows</p>
-
+<p align="center"><strong><a href="https://github.com/fuyingde/windows-keyboard-mouse-remapper/releases/latest">前往 Releases 下载最新版</a></strong></p>
+<h1 align="center">键盘鼠标映射工具 v2.6</h1>
+<p align="center">开源版提供 v1.8 版本</p>
 <p align="center">
   <a href="./README.md">简体中文</a> ·
   <a href="./README.en.md">English</a>
