@@ -1,6 +1,5 @@
 <p align="center"><strong><a href="https://github.com/fuyingde/windows-keyboard-mouse-remapper/releases/latest">Download the latest release</a></strong></p>
-<h1 align="center">Keyboard and Mouse Mapping Tool v2.6</h1>
-<p align="center">The open-source version offers v1.8</p>
+<h1 align="center">Keyboard and Mouse Mapping Tool v2.9</h1>
 <p align="center">
   <a href="./README.md">简体中文</a> ·
   <a href="./README.en.md">English</a>
