@@ -14,6 +14,11 @@
 if A_Args.Length && A_Args[1] = "--syntax-check"
     ExitApp()
 
+; Set on the Windows startup (Run key) launch command by StartupCommand() in
+; Core\SettingsCore.ahk, so the app can start hidden to tray on boot instead
+; of always popping its window open (see issue #2).
+global StartHidden := A_Args.Length && A_Args[1] = "--minimized"
+
 SetWorkingDir A_ScriptDir
 SendMode "Input"
 SetKeyDelay -1, -1
@@ -100,7 +105,12 @@ BuildGui() {
         App.gui.Navigate("index.html")
         stage := "show-window"
         App.gui.OnEvent("Close", CloseApp)
-        App.gui.Show("w1020 h600 Center")
+        ; Skip the initial show when launched with --minimized (see StartHidden above).
+        ; Only honor it once language has been selected and the tray icon is therefore
+        ; already configured (ConfigureTray() above), otherwise a first-run user would
+        ; be left with neither a visible window nor a tray icon to bring one up.
+        if !(StartHidden && App.languageSelected)
+            App.gui.Show("w1020 h600 Center")
     } catch as err {
         DevTrace("BuildGui error at " stage ": " err.Message " | " err.What " | " err.Extra " | line " err.Line)
         WriteStartupErrorLog(startupErrorLog, stage, err)
