@@ -81,7 +81,7 @@ SettingsReadPositiveInteger(section, key, defaultValue) {
 }
 
 StartupCommand() {
-    return A_IsCompiled ? '"' A_ScriptFullPath '"' : '"' A_AhkPath '" "' A_ScriptFullPath '"'
+    return A_IsCompiled ? '"' A_ScriptFullPath '" --minimized' : '"' A_AhkPath '" "' A_ScriptFullPath '" --minimized'
 }
 
 SettingsRegistryValue(valueName) {
